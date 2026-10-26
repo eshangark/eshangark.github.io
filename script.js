@@ -21,6 +21,12 @@
       event.preventDefault();
       if (window.location.hash !== link.hash) history.pushState(null, '', link.hash);
       renderSection();
+      if (link.closest('.header-links')) {
+        document.querySelector('.section-layout').scrollIntoView({
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+          block: 'start'
+        });
+      }
     });
   }
   window.addEventListener('popstate', renderSection);
