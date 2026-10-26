@@ -17,7 +17,7 @@
       window.openingFallback = setTimeout(() => document.documentElement.classList.remove('opening'), 4000);
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
   <script src="script.js?v=2" defer></script>
   <script src="opening.js?v=2" defer></script>
 </head>
@@ -26,7 +26,7 @@
   <div class="site-shell">
     <header class="header">
       <a class="wordmark" href="#about" aria-label="Eshan Garkhedkar, home">eg<span>.</span></a>
-      <span class="header-note">A personal corner of the internet</span>
+      <span class="header-note">Interests, ideas, and everything in between</span>
       <div class="header-controls">
         <span class="edition">Portfolio / 01</span>
         <button class="theme-toggle" type="button" aria-label="Switch to light mode" hidden>
@@ -41,11 +41,11 @@
         <div class="hero-copy">
           <p class="eyebrow">Hello, I'm</p>
           <h1 id="name" aria-label="Eshan Garkhedkar"><span class="name-part">Eshan</span><br><em class="name-part">Garkhedkar</em><span class="name-dot">.</span></h1>
-          <p class="hero-note">A little about me, and the things I make.</p>
+          <p class="hero-note">A little about me, and what I'm passionate about.</p>
         </div>
         <figure class="portrait">
-          <img src="assets/portrait-placeholder.svg" width="640" height="760" alt="Placeholder for Eshan's personal portrait">
-          <figcaption><span>01 / A face to the name</span><span>Photo coming soon</span></figcaption>
+          <img src="assets/portrait.jpg" width="1330" height="1182" alt="Eshan Garkhedkar smiling in a blue shirt">
+          <figcaption><span>01 / A face to the name</span></figcaption>
         </figure>
       </section>
       <div class="section-layout">
@@ -53,7 +53,9 @@
           <a href="#about" aria-current="page"><span>01</span>About<span class="nav-arrow" aria-hidden="true">↗</span></a>
           <a href="#projects"><span>02</span>Projects<span class="nav-arrow" aria-hidden="true">↗</span></a>
           <a href="#experience"><span>03</span>Experience<span class="nav-arrow" aria-hidden="true">↗</span></a>
-          <a href="#contact"><span>04</span>Contact<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#education"><span>04</span>Education<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#resume"><span>05</span>Resume<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#contact"><span>06</span>Contact<span class="nav-arrow" aria-hidden="true">↗</span></a>
         </nav>
         <div class="panels">
           <section id="about" class="panel" aria-labelledby="about-title">
@@ -73,6 +75,18 @@
             <h2 id="experience-title">Learning by <em>doing.</em></h2>
             <p class="placeholder-copy">A place for the work and experiences that shape me.</p>
             <div class="placeholder-rule"><span>Experience</span><span>Coming soon</span></div>
+          </section>
+          <section id="education" class="panel" aria-labelledby="education-title" hidden>
+            <p class="eyebrow">Education</p>
+            <h2 id="education-title">Always <em>learning.</em></h2>
+            <p class="placeholder-copy">A place for my education, studies, and academic interests.</p>
+            <div class="placeholder-rule"><span>Education</span><span>Coming soon</span></div>
+          </section>
+          <section id="resume" class="panel" aria-labelledby="resume-title" hidden>
+            <p class="eyebrow">Resume</p>
+            <h2 id="resume-title">The story, <em>on paper.</em></h2>
+            <p class="placeholder-copy">My resume will be available to view and download here.</p>
+            <div class="placeholder-rule"><span>Resume PDF</span><span>Coming soon</span></div>
           </section>
           <section id="contact" class="panel" aria-labelledby="contact-title" hidden>
             <p class="eyebrow">Keep in touch</p>
