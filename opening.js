@@ -59,7 +59,7 @@
       ], { duration: 2200, fill: 'both' });
       animations.push(travel);
       const groups = [
-        '.hero-copy>.eyebrow, .hero-note, .social-links',
+        '.hero-copy>.eyebrow, .hero-note, .hero-bio, .social-links',
         '.header, .portrait',
         '.section-layout, footer'
       ];
