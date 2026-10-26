@@ -14,6 +14,16 @@
     }
   }
 
+  for (const link of document.querySelectorAll('a[href^="#"]')) {
+    if (!allowed.has(link.hash.slice(1))) continue;
+    link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      if (window.location.hash !== link.hash) history.pushState(null, '', link.hash);
+      renderSection();
+    });
+  }
+  window.addEventListener('popstate', renderSection);
   window.addEventListener('hashchange', renderSection);
   renderSection();
   document.getElementById('year').textContent = new Date().getFullYear();
