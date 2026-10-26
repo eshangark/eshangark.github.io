@@ -1,29 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Eshan Garkhedkar's personal portfolio.">
-  <meta name="theme-color" content="#f4f1eb">
+  <meta name="theme-color" content="#161815">
   <title>Eshan Garkhedkar</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23252d29'/%3E%3Ctext x='32' y='43' text-anchor='middle' fill='%23f4f1eb' font-family='Georgia' font-size='36'%3Ee%3C/text%3E%3C/svg%3E">
+  <script>
+    try {
+      if (localStorage.getItem('portfolio-theme') === 'light') document.documentElement.dataset.theme = 'light';
+    } catch {}
+    document.querySelector('meta[name="theme-color"]').content = document.documentElement.dataset.theme === 'light' ? '#f4f1eb' : '#161815';
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('opening');
+      window.openingFallback = setTimeout(() => document.documentElement.classList.remove('opening'), 4000);
+    }
+  </script>
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
+  <script src="opening.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
-  <div class="intro" aria-hidden="true"><span>Eshan<span class="intro-dot">.</span></span></div>
   <div class="site-shell">
     <header class="header">
       <a class="wordmark" href="#about" aria-label="Eshan Garkhedkar, home">eg<span>.</span></a>
       <span class="header-note">A personal corner of the internet</span>
-      <span class="edition">Portfolio / 01</span>
+      <div class="header-controls">
+        <span class="edition">Portfolio / 01</span>
+        <button class="theme-toggle" type="button" aria-label="Switch to light mode" hidden>
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></svg>
+          <span class="theme-label">Light</span>
+        </button>
+      </div>
     </header>
     <main id="content" tabindex="-1">
       <section class="hero" aria-labelledby="name">
         <div class="hero-copy">
           <p class="eyebrow">Hello, I'm</p>
-          <h1 id="name">Eshan<br><em>Garkhedkar</em><span class="name-dot">.</span></h1>
+          <h1 id="name" aria-label="Eshan Garkhedkar"><span class="name-part">Eshan</span><br><em class="name-part">Garkhedkar</em><span class="name-dot">.</span></h1>
           <p class="hero-note">A little about me, and the things I make.</p>
         </div>
         <figure class="portrait">

@@ -28,13 +28,22 @@
   renderSection();
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  try {
-    if (!sessionStorage.getItem('portfolio-intro-seen') &&
-        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.documentElement.classList.add('motion');
-      sessionStorage.setItem('portfolio-intro-seen', 'true');
-    }
-  } catch {
-    // Navigation and content remain available when browser storage is disabled.
+  const toggle = document.querySelector('.theme-toggle');
+  function setTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    const next = theme === 'dark' ? 'light' : 'dark';
+    toggle.setAttribute('aria-label', `Switch to ${next} mode`);
+    toggle.querySelector('.theme-label').textContent = next === 'light' ? 'Light' : 'Dark';
+    document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#161815' : '#f4f1eb';
   }
+  setTheme(document.documentElement.dataset.theme);
+  toggle.hidden = false;
+  toggle.addEventListener('click', () => {
+    const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    setTheme(theme);
+    try { localStorage.setItem('portfolio-theme', theme); } catch {}
+  });
+  window.addEventListener('storage', event => {
+    if (event.key === 'portfolio-theme') setTheme(event.newValue === 'light' ? 'light' : 'dark');
+  });
 })();
