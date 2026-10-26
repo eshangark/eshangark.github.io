@@ -59,15 +59,15 @@
       ], { duration: 2200, fill: 'both' });
       animations.push(travel);
       const groups = [
-        '.hero-copy>.eyebrow, .hero-note',
+        '.hero-copy>.eyebrow, .hero-note, .social-links',
         '.header, .portrait',
         '.section-layout, footer'
       ];
       groups.forEach((selector, index) => {
         document.querySelectorAll(selector).forEach(element => {
           animations.push(element.animate([
-            { opacity: 0, transform: 'translateY(12px)' },
-            { opacity: 1, transform: 'translateY(0)' }
+            { opacity: 0 },
+            { opacity: 1 }
           ], { duration: 650, delay: 1750 + index * 130, fill: 'forwards', easing: 'cubic-bezier(.2,.8,.2,1)' }));
         });
       });

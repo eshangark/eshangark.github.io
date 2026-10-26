@@ -17,18 +17,16 @@
       window.openingFallback = setTimeout(() => document.documentElement.classList.remove('opening'), 4000);
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
   <script src="script.js?v=2" defer></script>
-  <script src="opening.js?v=2" defer></script>
+  <script src="opening.js?v=4" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
   <div class="site-shell">
     <header class="header">
       <a class="wordmark" href="#about" aria-label="Eshan Garkhedkar, home">eg<span>.</span></a>
-      <span class="header-note">Interests, ideas, and everything in between</span>
       <div class="header-controls">
-        <span class="edition">Portfolio / 01</span>
         <button class="theme-toggle" type="button" aria-label="Switch to light mode" hidden>
           <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
           <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></svg>
@@ -42,57 +40,70 @@
           <p class="eyebrow">Hello, I'm</p>
           <h1 id="name" aria-label="Eshan Garkhedkar"><span class="name-part">Eshan</span><br><em class="name-part">Garkhedkar</em><span class="name-dot">.</span></h1>
           <p class="hero-note">A little about me, and what I'm passionate about.</p>
+          <nav class="social-links" aria-label="Social profiles and email">
+            <a href="https://www.instagram.com/eshan15_gark/" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://open.spotify.com/user/qiluwez3d15758slnr31fjo0b" aria-label="Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M6.8 9.2c3.6-1.1 7.4-.8 10.5 1M7.6 12.2c2.9-.8 5.8-.5 8.5.8M8.4 15.1c2.3-.6 4.6-.4 6.8.6"/></svg></a>
+            <a href="https://www.linkedin.com/in/eshan-garkhedkar-668237223/" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7.5 10v7M11 17v-7m0 3a3 3 0 0 1 6 0v4"/><circle cx="7.5" cy="7" r=".8" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://github.com/eshangark" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.3-4.3-2.2-6-2.7M15 22v-3.4c0-1 .1-1.5-.5-2.2 3.2-.4 6.5-1.6 6.5-7A5.5 5.5 0 0 0 19.5 5c.2-.5.7-2.1-.1-4 0 0-1.3-.4-4.4 1.6a15.1 15.1 0 0 0-8 0C3.9.6 2.6 1 2.6 1c-.8 1.9-.3 3.5-.1 4A5.5 5.5 0 0 0 1 9.4c0 5.4 3.3 6.6 6.5 7-.5.5-.7 1.1-.5 2.2V22" transform="translate(1 0) scale(.92)"/></svg></a>
+            <a href="mailto:eshangark@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg></a>
+          </nav>
         </div>
         <figure class="portrait">
-          <img src="assets/portrait.jpg" width="1330" height="1182" alt="Eshan Garkhedkar smiling in a blue shirt">
-          <figcaption><span>01 / A face to the name</span></figcaption>
+          <div class="portrait-frame"><img src="assets/portrait.jpg" width="1330" height="1182" alt="Eshan Garkhedkar smiling in a blue shirt"></div>
+          <figcaption>Eshan Garkhedkar</figcaption>
         </figure>
       </section>
       <div class="section-layout">
         <nav class="navigation" aria-label="Portfolio sections">
-          <a href="#about" aria-current="page"><span>01</span>About<span class="nav-arrow" aria-hidden="true">↗</span></a>
-          <a href="#projects"><span>02</span>Projects<span class="nav-arrow" aria-hidden="true">↗</span></a>
-          <a href="#experience"><span>03</span>Experience<span class="nav-arrow" aria-hidden="true">↗</span></a>
-          <a href="#education"><span>04</span>Education<span class="nav-arrow" aria-hidden="true">↗</span></a>
-          <a href="#resume"><span>05</span>Resume<span class="nav-arrow" aria-hidden="true">↗</span></a>
-          <a href="#contact"><span>06</span>Contact<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#about" aria-current="page">About<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#projects">Projects<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#experience">Experience<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#education">Education<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#resume">Resume<span class="nav-arrow" aria-hidden="true">↗</span></a>
+          <a href="#contact">Contact<span class="nav-arrow" aria-hidden="true">↗</span></a>
         </nav>
         <div class="panels">
           <section id="about" class="panel" aria-labelledby="about-title">
-            <p class="eyebrow">A short introduction</p>
-            <h2 id="about-title">A space to be <em>myself.</em></h2>
-            <p class="placeholder-copy">The story goes here. For now, just making room for it.</p>
+            <p class="eyebrow">About</p>
+            <h2 id="about-title">About me</h2>
+            <p class="placeholder-copy">More about my interests and background coming soon.</p>
             <div class="placeholder-rule"><span>About me</span><span>Coming soon</span></div>
           </section>
           <section id="projects" class="panel" aria-labelledby="projects-title" hidden>
-            <p class="eyebrow">Selected work</p>
-            <h2 id="projects-title">Things I've <em>made.</em></h2>
-            <p class="placeholder-copy">A place for projects, experiments, and ideas.</p>
+            <p class="eyebrow">Projects</p>
+            <h2 id="projects-title">Projects</h2>
+            <p class="placeholder-copy">Project details coming soon.</p>
             <div class="placeholder-rule"><span>Projects</span><span>Coming soon</span></div>
           </section>
           <section id="experience" class="panel" aria-labelledby="experience-title" hidden>
-            <p class="eyebrow">Along the way</p>
-            <h2 id="experience-title">Learning by <em>doing.</em></h2>
-            <p class="placeholder-copy">A place for the work and experiences that shape me.</p>
+            <p class="eyebrow">Experience</p>
+            <h2 id="experience-title">Experience</h2>
+            <p class="placeholder-copy">Work and experience details coming soon.</p>
             <div class="placeholder-rule"><span>Experience</span><span>Coming soon</span></div>
           </section>
           <section id="education" class="panel" aria-labelledby="education-title" hidden>
             <p class="eyebrow">Education</p>
-            <h2 id="education-title">Always <em>learning.</em></h2>
-            <p class="placeholder-copy">A place for my education, studies, and academic interests.</p>
+            <h2 id="education-title">Education</h2>
+            <p class="placeholder-copy">Education details coming soon.</p>
             <div class="placeholder-rule"><span>Education</span><span>Coming soon</span></div>
           </section>
           <section id="resume" class="panel" aria-labelledby="resume-title" hidden>
             <p class="eyebrow">Resume</p>
-            <h2 id="resume-title">The story, <em>on paper.</em></h2>
-            <p class="placeholder-copy">My resume will be available to view and download here.</p>
+            <h2 id="resume-title">Resume</h2>
+            <p class="placeholder-copy">Resume PDF coming soon.</p>
             <div class="placeholder-rule"><span>Resume PDF</span><span>Coming soon</span></div>
           </section>
           <section id="contact" class="panel" aria-labelledby="contact-title" hidden>
-            <p class="eyebrow">Keep in touch</p>
-            <h2 id="contact-title">Say <em>hello.</em></h2>
-            <p class="placeholder-copy">Contact details and links will live here.</p>
-            <div class="placeholder-rule"><span>Contact</span><span>Coming soon</span></div>
+            <p class="eyebrow">Contact</p>
+            <h2 id="contact-title">Contact</h2>
+            <p class="placeholder-copy">Find me online, or send me an email.</p>
+            <ul class="contact-links">
+              <li><a href="https://www.instagram.com/eshan15_gark/"><span>Instagram</span><span class="contact-detail">@eshan15_gark</span><span aria-hidden="true">↗</span></a></li>
+              <li><a href="https://open.spotify.com/user/qiluwez3d15758slnr31fjo0b"><span>Spotify</span><span class="contact-detail">Listen on Spotify</span><span aria-hidden="true">↗</span></a></li>
+              <li><a href="https://www.linkedin.com/in/eshan-garkhedkar-668237223/"><span>LinkedIn</span><span class="contact-detail">Eshan Garkhedkar</span><span aria-hidden="true">↗</span></a></li>
+              <li><a href="https://github.com/eshangark"><span>GitHub</span><span class="contact-detail">@eshangark</span><span aria-hidden="true">↗</span></a></li>
+              <li><a href="mailto:eshangark@gmail.com"><span>Email</span><span class="contact-detail">eshangark@gmail.com</span><span aria-hidden="true">↗</span></a></li>
+            </ul>
           </section>
         </div>
       </div>
