@@ -55,3 +55,5 @@ footer{display:flex;justify-content:space-between;gap:20px;border-top:1px solid 
 @media(max-width:520px){.contact-links a{grid-template-columns:64px 1fr auto;font-size:12px;gap:8px}.social-links{margin-top:14px}}
 
 .text-link{display:inline-flex;gap:16px;align-items:center;font-size:13px;border-bottom:1px solid var(--line);padding-bottom:7px}.text-link:hover{border-color:var(--ink)}.education-school{font-size:18px;font-weight:400;margin:0 0 14px}@media(max-width:760px){.hero-bio{font-size:12px}}
+
+.header-links{display:flex;gap:26px;align-items:center;color:var(--muted);font-size:12px}.header-links a:hover{color:var(--ink)}.portrait figcaption a{display:inline-flex;align-items:center;gap:12px;padding:3px 0}.portrait figcaption a:hover{color:var(--ink)}#about .placeholder-copy{max-width:none;width:100%}@media(max-width:520px){.header-links{gap:12px;font-size:10px}}
