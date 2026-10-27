@@ -17,8 +17,8 @@
       window.openingFallback = setTimeout(() => document.documentElement.classList.remove('opening'), 4000);
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=9">
-  <script src="script.js?v=6" defer></script>
+  <link rel="stylesheet" href="styles.css?v=10">
+  <script src="script.js?v=10" defer></script>
   <script src="opening.js?v=5" defer></script>
 </head>
 <body>
@@ -81,26 +81,89 @@
           <section id="projects" class="panel" aria-labelledby="projects-title" hidden>
             <p class="eyebrow">Projects</p>
             <h2 id="projects-title">Projects</h2>
-            <p class="placeholder-copy">Project details coming soon.</p>
-            <div class="placeholder-rule"><span>Projects</span><span>Coming soon</span></div>
+            <div class="entry-list">
+            <article class="entry">
+              <h3>Parallax NBA</h3>
+              <p class="entry-role">Creator &amp; Developer · Current</p>
+              <p class="entry-copy">A mathematical model that ranks NBA teams and estimates matchup win probabilities, paired with a dashboard for exploring team strength, injury availability, and historical predictions. It began as a personal betting tool and is now open source and available online.</p>
+              <div class="entry-links"><a href="https://parallax-nba.streamlit.app/" >Live dashboard <span aria-hidden="true">↗</span></a><a href="https://github.com/eshangark/parallax-nba" >GitHub <span aria-hidden="true">↗</span></a><a href="https://github.com/eshangark/parallax-nba/blob/main/paper/main.pdf" >Technical paper <span aria-hidden="true">↗</span></a></div>
+            </article>
+            <article class="entry">
+              <h3>Portfolio Risk Engine</h3>
+              <p class="entry-role">Creator &amp; Developer</p>
+              <p class="entry-copy">A C++ and Python tool for understanding where portfolio risk comes from and how a new investment changes it. The dashboard lets users explore the contribution of each holding and compare ways to allocate new money under explicit constraints.</p>
+              <div class="entry-links"><a href="https://eshan-portfolio-risk-engine.streamlit.app/" >Live dashboard <span aria-hidden="true">↗</span></a><a href="https://github.com/eshangark/portfolio-risk-engine" >GitHub <span aria-hidden="true">↗</span></a><a href="https://github.com/eshangark/portfolio-risk-engine/blob/main/docs/paper/portfolio-risk-engine.pdf" >Technical paper <span aria-hidden="true">↗</span></a></div>
+            </article>
+            <article class="entry">
+              <h3>College Basketball Ranking &amp; Win Probability Model</h3>
+              <p class="entry-role">Mathematical Modeling Team Member · Wharton Data Science Competition · Spring 2025</p>
+              <p class="entry-copy">Worked with a team to model NCAA basketball team strength and game outcomes, combining performance statistics with factors such as schedule strength, rest, and travel. Our team reached the competition’s top-25 semifinalist round; the work later informed Parallax NBA.</p>
+
+            </article>
+            <article class="entry">
+              <h3>Dynamic Traveling Salesman Problem</h3>
+              <p class="entry-role">Algorithm Researcher · IB Computer Science Extended Essay · 2025–2026</p>
+              <p class="entry-copy">Compared genetic algorithms and ant colony optimization for finding efficient routes as conditions change. I built a Python experiment framework to examine the trade-off between route quality and computation time across different problem sizes.</p>
+
+            </article>
+            <article class="entry">
+              <h3>Arduino Projects</h3>
+              <p class="entry-role">Developer &amp; Maintainer · 2024–2025</p>
+              <p class="entry-copy">A collection of hands-on electronics projects covering sensing, automation, and monitoring, from an ultrasonic radar display to an automatic irrigation system. Each project includes code and setup documentation, with interfaces for visualizing sensor readings.</p>
+              <div class="entry-links"><a href="https://github.com/eshangark/Arduino-Projects" >GitHub <span aria-hidden="true">↗</span></a></div>
+            </article>
+            </div>
           </section>
           <section id="experience" class="panel" aria-labelledby="experience-title" hidden>
             <p class="eyebrow">Experience</p>
             <h2 id="experience-title">Experience</h2>
-            <p class="placeholder-copy">Work and experience details coming soon.</p>
-            <div class="placeholder-rule"><span>Experience</span><span>Coming soon</span></div>
+            <div class="entry-list">
+            <article class="entry">
+              <h3>Cavalier Computers</h3>
+              <p class="entry-role">Technology Sales Associate · Student Worker · Current</p>
+              <p class="entry-copy">I help customers compare computers, accessories, and other technology at UVA’s Cavalier Computers, explaining product differences and helping them choose equipment for school and everyday use.</p>
+              <div class="entry-links"><a href="https://www.cavaliercomputers.com/about-us" >Cavalier Computers <span aria-hidden="true">↗</span></a></div>
+            </article>
+            <article class="entry">
+              <h3>Spatialty AI</h3>
+              <p class="entry-role">Research Analyst Intern · Pune, India · Summer 2025</p>
+              <p class="entry-copy">Researched the solar technology market for a geospatial analytics startup, comparing competitors and reviewing industry and policy research. I translated that work into pricing and product-positioning recommendations for different customer groups.</p>
+
+            </article>
+            <article class="entry">
+              <h3>Project I.C.E.</h3>
+              <p class="entry-role">Co-Founder &amp; Data Analyst · Indus Carbon Emissions · 2025–2026</p>
+              <p class="entry-copy">Co-founded a campus sustainability initiative at Indus, using carbon-footprint analysis and a tree inventory to understand campus emissions and carbon sequestration. I also helped develop an interactive dashboard and organize a student innovation competition around sustainability.</p>
+
+            </article>
+            </div>
           </section>
           <section id="education" class="panel" aria-labelledby="education-title" hidden>
             <p class="eyebrow">Education</p>
             <h2 id="education-title">Education</h2>
-            <h3 class="education-school">University of Virginia</h3>
-            <p class="placeholder-copy">Mathematics &amp; Computer Science<br>First-year undergraduate</p>
+            <div class="entry-list">
+            <article class="entry">
+              <h3>University of Virginia</h3>
+              <p class="entry-role">College of Arts &amp; Sciences · Expected 2030</p>
+              <p class="entry-copy">I’m studying mathematics and computer science, with a focus on probability, statistics, finance, and computing. Alongside that coursework, I’m beginning to explore ethics and public policy.</p>
+              <div class="entry-links"><a href="https://www.virginia.edu/" >University website <span aria-hidden="true">↗</span></a></div>
+            </article>
+            <article class="entry">
+              <h3>Indus International School Pune</h3>
+              <p class="entry-role">IB Diploma · Class of 2026</p>
+              <p class="entry-copy">Completed the IB Diploma while attending boarding school in Pune, India. My work there included research on optimization algorithms, a team basketball-modeling project, and a campus sustainability initiative.</p>
+              <div class="entry-links"><a href="https://pune.indusschool.com/" >School website <span aria-hidden="true">↗</span></a></div>
+            </article>
+            </div>
           </section>
           <section id="resume" class="panel" aria-labelledby="resume-title" hidden>
             <p class="eyebrow">Resume</p>
             <h2 id="resume-title">Resume</h2>
-            <p class="placeholder-copy">Resume PDF coming soon.</p>
-            <div class="placeholder-rule"><span>Resume PDF</span><span>Coming soon</span></div>
+            <p class="resume-copy">My current resume, with details on my education, projects, and experience.</p>
+            <div class="resume-actions">
+              <a class="text-link" href="assets/Eshan_Garkhedkar_Resume.pdf" target="_blank" rel="noopener">View PDF <span aria-hidden="true">↗</span></a>
+              <a class="text-link" href="assets/Eshan_Garkhedkar_Resume.pdf" download>Download PDF <span aria-hidden="true">↓</span></a>
+            </div>
           </section>
           <section id="contact" class="panel" aria-labelledby="contact-title" hidden>
             <p class="eyebrow">Contact</p>
