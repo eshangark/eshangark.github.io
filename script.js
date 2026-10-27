@@ -21,8 +21,10 @@
       event.preventDefault();
       if (window.location.hash !== link.hash) history.pushState(null, '', link.hash);
       renderSection();
-      if (link.closest('.header-links')) {
-        document.querySelector('.section-layout').scrollIntoView({
+      const sectionLayout = document.querySelector('.section-layout');
+      if (link.closest('.header-links') ||
+          (link.closest('.navigation') && window.scrollY > sectionLayout.offsetTop)) {
+        sectionLayout.scrollIntoView({
           behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
           block: 'start'
         });
