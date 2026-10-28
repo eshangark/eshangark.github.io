@@ -37,21 +37,30 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   const toggle = document.querySelector('.theme-toggle');
-  function setTheme(theme) {
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  let preference = 'system';
+  try {
+    const saved = localStorage.getItem('portfolio-theme');
+    if (['system', 'dark', 'light'].includes(saved)) preference = saved;
+  } catch {}
+
+  function setTheme(value) {
+    preference = ['system', 'dark', 'light'].includes(value) ? value : 'system';
+    const theme = preference === 'system' ? (systemTheme.matches ? 'dark' : 'light') : preference;
     document.documentElement.dataset.theme = theme;
-    const next = theme === 'dark' ? 'light' : 'dark';
-    toggle.setAttribute('aria-label', `Switch to ${next} mode`);
-    toggle.querySelector('.theme-label').textContent = next === 'light' ? 'Light' : 'Dark';
+    toggle.value = preference;
     document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#161815' : '#f4f1eb';
   }
-  setTheme(document.documentElement.dataset.theme);
+  setTheme(preference);
   toggle.hidden = false;
-  toggle.addEventListener('click', () => {
-    const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    setTheme(theme);
-    try { localStorage.setItem('portfolio-theme', theme); } catch {}
+  toggle.addEventListener('change', () => {
+    setTheme(toggle.value);
+    try { localStorage.setItem('portfolio-theme', preference); } catch {}
+  });
+  systemTheme.addEventListener('change', () => {
+    if (preference === 'system') setTheme(preference);
   });
   window.addEventListener('storage', event => {
-    if (event.key === 'portfolio-theme') setTheme(event.newValue === 'light' ? 'light' : 'dark');
+    if (event.key === 'portfolio-theme' || event.key === null) setTheme(event.newValue);
   });
 })();
