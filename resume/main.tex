@@ -1,0 +1,66 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks,pdftitle={Eshan Garkhedkar Resume},pdfauthor={Eshan Garkhedkar}]{hyperref}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=12pt,label=\textbullet,itemsep=1pt,topsep=3pt,parsep=0pt}
+\titleformat{\section}{\large\bfseries}{}{0pt}{}[\titlerule]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\newcommand{\contact}[2]{\href{#1}{\underline{#2}}}
+\newcommand{\entry}[4]{\textbf{#1}\hfill #2\\\textit{#3}\hfill\textit{#4}\par}
+\begin{document}
+\begin{center}
+{\fontsize{24}{26}\selectfont\bfseries Eshan Garkhedkar}\\[2pt]
+630-890-9550 \enspace|\enspace
+\contact{mailto:brv5qe@virginia.edu}{brv5qe@virginia.edu} \enspace|\enspace
+\contact{mailto:eshangark@gmail.com}{eshangark@gmail.com} \enspace|\enspace
+\contact{https://www.linkedin.com/in/eshan-garkhedkar-668237223/}{LinkedIn} \enspace|\enspace
+\contact{https://github.com/eshangark}{GitHub} \enspace|\enspace
+\contact{https://eshangark.github.io/}{Portfolio}
+\end{center}
+\vspace{-8pt}
+\section{Education}
+\begin{itemize}[topsep=0pt,itemsep=4pt]
+\item \textbf{University of Virginia, College of Arts \& Sciences}\hfill Charlottesville, VA\\
+\textit{Bachelor of Arts in Mathematics, Minor in Computer Science}\hfill\textit{Expected May 2030}\\
+Relevant courses: Data Structures \& Algorithms, Calculus 1.
+\item \textbf{Indus International School Pune}: IB Diploma, May 2026; IB: 38/45; SAT: 1510; Subject Award in Physics. U.S. citizen; attended boarding school abroad.
+\end{itemize}
+\section{Projects}
+\entry{Multi-Factor Basketball Ranking \& Win Probability Model}{Spring 2025}{Mathematical Modelling Team Member | Wharton Data Science Competition}{}
+\begin{itemize}
+\item Developed a multi-factor basketball ranking and win probability model in Python using Whole-History Rating (WHR), Bradley-Terry, and dynamic Elo to analyze 5,200+ NCAA Division I games.
+\item Engineered feature pipelines incorporating 40+ variables, 8 advanced performance metrics, and contextual factors including strength of schedule, travel distance, rest differentials, and time-zone effects; optimized model parameters using Bayesian optimization and regression analysis across 6M data points.
+\item Validated predictive performance through RMSE minimization. Achieved a top 25 Semifinalist finish out of 500+ teams across the world.
+\end{itemize}
+\entry{Dynamic Traveling Salesman Problem Solver}{Spring 2025 -- Spring 2026}{Algorithm Researcher | IB Computer Science Extended Essay}{}
+\begin{itemize}
+\item Designed and implemented Genetic Algorithm (GA) and Ant Colony Optimization (ACO) solvers in Python, benchmarking their performance on the Dynamic Traveling Salesman Problem using TSPLIB datasets containing 14, 52, and 100-node instances.
+\item Developed an experimental framework that generated 10 dynamic snapshots per dataset and executed 5 repeated trials per snapshot, evaluating route optimality and runtime under controlled conditions using custom Python tooling.
+\item Authored a 4,000-word research paper earning an IB Grade A, demonstrating that GA achieved up to approximately 37\% shorter routes than the baseline Ant System on larger problem instances while ACO maintained lower computational runtime.
+\end{itemize}
+\entry{Arduino Projects Repository | \href{https://github.com/eshangark/Arduino-Projects}{GitHub}}{Fall 2024 -- Spring 2025}{Developer \& Maintainer}{}
+\begin{itemize}
+\item Developed and maintained an open-source repository of 13 embedded systems projects totaling 3,000+ lines of C++ and Java, integrating 10+ sensors and actuators, complete with documentation and custom Processing GUIs.
+\item Engineered automation and monitoring systems, including ultrasonic radar, automatic irrigation, IR decoding, people counting, and environmental sensing, using modular hardware/software architectures.
+\end{itemize}
+\section{Work Experience}
+\textbf{Spatialty AI} | AI startup developing geospatial analytics and rooftop solar assessment solutions.\\
+\textit{Research Analyst Intern | Pune, India}\hfill\textit{Summer 2025}
+\begin{itemize}
+\item Conducted competitive market analysis of 8 leading solar technology companies, evaluating pricing strategies, AI capabilities, and product positioning to support commercial strategy development.
+\item Synthesized insights from 50+ industry reports, government policies, and market datasets into segment-specific pricing recommendations spanning residential, SME, commercial, and public-sector customers.
+\item Delivered four research reports, one final strategy report, and executive presentations translating technical and market analyses into actionable recommendations for product positioning and pricing strategy.
+\end{itemize}
+\section{Leadership \& Activities}
+\entry{Project I.C.E. (Indus Carbon Emissions)}{Fall 2025 -- Spring 2026}{Co-Founder \& Data Analyst}{}
+\begin{itemize}
+\item Co-founded a campus sustainability initiative, leading carbon-footprint analysis across a 36-acre campus and cataloging 1,200+ trees across 40 species using IIT-derived sequestration models.
+\item Designed an interactive dashboard and organized a 75+ participant innovation competition promoting data-driven sustainability initiatives.
+\end{itemize}
+\end{document}
