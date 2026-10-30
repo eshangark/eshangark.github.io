@@ -1,17 +1,21 @@
-# Resume source
+# Updating your resume
 
-Edit `main.tex`, then run `python3 resume/build.py` from the repository root.
-For automatic rebuilding on each save, run `python3 resume/build.py --watch`.
+On GitHub, open `resume/main.tex`, click the pencil to edit it, then choose
+**Commit changes** and commit directly to `main`.
 
-The build updates the PDF and WebP preview in `assets/` and their cache versions
-in `index.html`. It checks that the resume fits on one page and contains the
-portfolio hyperlink before replacing the existing assets. Build files stay in a
-temporary directory. Commit and push the source and generated assets to publish.
+The **Update resume** workflow automatically compiles the LaTeX, validates the
+one-page PDF and portfolio link, updates the PDF and WebP preview in `assets/`,
+refreshes their links in `index.html`, and requests a GitHub Pages deployment.
+No manual build or PDF upload is needed. Allow a few minutes for publication.
 
-Requirements: Tectonic, Poppler (`pdftoppm`), Python 3, Pillow, and pypdf.
-The script also detects the compiler bundled with the desktop app and the
-Poppler binary in its workspace runtime. Install Python packages with
-`python3 -m pip install Pillow pypdf` if needed.
+Check the repository's **Actions** tab for progress. If compilation fails or the
+resume exceeds one page, correct `main.tex` and commit again. The previously
+published PDF stays available until a build succeeds. You can also run
+**Update resume** manually from Actions using **Run workflow**.
 
-The source was recreated from the supplied PDF; its content is intentionally
-unchanged apart from adding the portfolio contact link.
+## Optional local editing
+
+Run `python3 resume/build.py` from the repository root to build once, or
+`python3 resume/build.py --watch` to rebuild whenever `main.tex` is saved.
+Local builds require Tectonic, Poppler (`pdftoppm`), Python 3, Pillow, and pypdf.
+The script also detects the compiler and dependencies bundled with Codex.

@@ -1,0 +1,65 @@
+name: Update resume
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'resume/**'
+      - '.github/workflows/resume.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: resume-update
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out latest source
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up LaTeX compiler
+        uses: wtfjoke/setup-tectonic@v4
+        with:
+          tectonic-version: '0.15.0'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install PDF rendering dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes poppler-utils
+          python -m pip install Pillow pypdf
+
+      - name: Rebuild and validate resume
+        run: python resume/build.py
+
+      - name: Save generated website assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/Eshan_Garkhedkar_Resume.pdf assets/resume-preview.webp index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Rebuild resume PDF and preview'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+
+      # Bot commits do not trigger the usual branch-based Pages deployment.
+      - name: Publish updated website
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"
