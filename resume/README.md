@@ -19,3 +19,19 @@ Run `python3 resume/build.py` from the repository root to build once, or
 `python3 resume/build.py --watch` to rebuild whenever `main.tex` is saved.
 Local builds require Tectonic, Poppler (`pdftoppm`), Python 3, Pillow, and pypdf.
 The script also detects the compiler and dependencies bundled with Codex.
+
+## Public and private versions
+
+The GitHub workflow always builds the **public** version, without a phone number.
+Keep editing `resume/main.tex` on GitHub as usual. Never put your phone number in
+that file, another repository file, or a workflow secret used by this public build.
+The builder rejects phone numbers in the shared source and public PDF.
+
+For a private copy, keep `phone.txt` in `../private-resume/` (outside this public
+repository) and run `python3 resume/build.py --private`. This builds
+`../private-resume/Eshan_Garkhedkar_Resume_Private.pdf` from the same current
+LaTeX source. It does not change the website PDF, preview, or index. Pull the
+latest source before rebuilding a private copy after a GitHub edit.
+
+Both the phone file and private output must be outside this repository.
+Removing the number now does not erase it from older public Git commits or caches.
