@@ -17,14 +17,19 @@
 \begin{document}
 \begin{center}
 {\fontsize{24}{26}\selectfont\bfseries Eshan Garkhedkar}\\[2pt]
-{\font\contactfont=ec-lmr10 at 9.7pt\contactfont\mbox{Las Vegas, NV\;|\;\ifdefined\ResumePhone\ResumePhone\;|\;\else U.S. Citizen\;|\;\fi\contact{mailto:eshangark@gmail.com}{eshangark@gmail.com}\;|\;\contact{https://www.linkedin.com/in/eshangark/}{linkedin.com/in/eshangark}\;|\;\contact{https://github.com/eshangark}{github.com/eshangark}\;|\;\contact{https://eshangark.github.io/}{eshangark.github.io}}}
+{\ifdefined\ResumePhone
+\font\contactfont=ec-lmr10 at 9pt\def\contactsep{\hspace{1pt}|\hspace{1pt}}%
+\else
+\font\contactfont=ec-lmr10 at 9.7pt\def\contactsep{\;|\;}%
+\fi
+\contactfont\mbox{Las Vegas, NV\contactsep U.S. Citizen\contactsep\ifdefined\ResumePhone\ResumePhone\contactsep\fi\contact{mailto:eshangark@gmail.com}{eshangark@gmail.com}\contactsep\contact{https://www.linkedin.com/in/eshangark/}{linkedin.com/in/eshangark}\contactsep\contact{https://github.com/eshangark}{github.com/eshangark}\contactsep\contact{https://eshangark.github.io/}{eshangark.github.io}}}
 \end{center}
 \vspace{-8pt}
 \section{Education}
 \begin{itemize}[topsep=0pt,itemsep=4pt]
 \item \textbf{University of Virginia, College of Arts \& Sciences}\hfill Charlottesville, VA\\
 \textit{Bachelor of Arts in Mathematics, Minor in Computer Science}\hfill\textit{Expected May 2030}\\
-Relevant courses: Data Structures \& Algorithms, Calculus 1.\ifdefined\ResumePhone\hfill U.S. Citizen\fi
+Relevant courses: Data Structures \& Algorithms, Calculus 1.
 \end{itemize}
 \section{Projects}
 \entry{Wharton Data Science Competition | Top 25 Semifinalist}{Feb 2025 -- Apr 2025}{Multi-Factor Basketball Ranking \& Win Probability Model}{}
@@ -39,17 +44,18 @@ Relevant courses: Data Structures \& Algorithms, Calculus 1.\ifdefined\ResumePho
 \item Developed an experimental framework that generated 10 dynamic snapshots per dataset and executed 5 repeated trials per snapshot, evaluating route optimality and runtime under controlled conditions using custom Python tooling.
 \item {\spaceskip=3pt plus1pt minus2pt\relax Authored a 4,000-word research paper earning an IB Grade A, demonstrating that GA achieved up to approximately 37\% shorter routes than the baseline Ant System on larger problem instances while ACO maintained lower \mbox{computational runtime.}\par}
 \end{itemize}
-\entry{Arduino Projects Repository | \href{https://github.com/eshangark/Arduino-Projects}{GitHub}}{Sep 2024 -- May 2025}{Developer \& Maintainer}{}
+\textbf{Arduino Projects Repository | \href{https://github.com/eshangark/Arduino-Projects}{GitHub}}\hfill Sep 2024 -- May 2025\par
 \begin{itemize}
 \item Developed and maintained an open-source repository of 13 embedded systems projects totaling 3,000+ lines of C++ and Java, integrating 10+ sensors and actuators, complete with documentation and custom Processing GUIs.
 \end{itemize}
 \section{Work Experience}
-\textbf{Cavalier Computers} | University of Virginia technology store.\\
-\textit{Technology Sales Associate / Student Worker}\hfill\textit{Sep 2026 -- Present}
+\textbf{Cavalier Computers} | University of Virginia retailer for computers and accessories.\\
+\textit{Technology Sales Associate (Student Worker)}\hfill\textit{Sep 2026 -- Present}
 \begin{itemize}
-\item Recommend computers and accessories based on customers' academic requirements and everyday computing needs.
-\item Explain technical specifications and product trade-offs clearly to help customers make informed purchasing decisions.
+\item Assess customers' computing needs and explain product specifications and trade-offs, recommending computers and accessories suited to academic and everyday use.
+\item Process purchases through the point-of-sale system, providing accurate checkout and attentive customer service.
 \end{itemize}
+\vspace{5pt}
 \textbf{Spatialty AI} | AI startup developing geospatial analytics and rooftop solar assessment solutions.\\
 \textit{Research Analyst Intern | Pune, India}\hfill\textit{Jun 2025 -- Aug 2025}
 \begin{itemize}
