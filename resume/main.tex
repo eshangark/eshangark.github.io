@@ -17,14 +17,14 @@
 \begin{document}
 \begin{center}
 {\fontsize{24}{26}\selectfont\bfseries Eshan Garkhedkar}\\[2pt]
-{\font\contactfont=ec-lmr10 at 9.7pt\contactfont\mbox{Las Vegas, NV\;|\;\ifdefined\ResumePhone\ResumePhone\;|\;\fi\contact{mailto:eshangark@gmail.com}{eshangark@gmail.com}\;|\;\contact{https://www.linkedin.com/in/eshangark/}{linkedin.com/in/eshangark}\;|\;\contact{https://github.com/eshangark}{github.com/eshangark}\;|\;\contact{https://eshangark.github.io/}{eshangark.github.io}}}
+{\font\contactfont=ec-lmr10 at 9.7pt\contactfont\mbox{Las Vegas, NV\;|\;\ifdefined\ResumePhone\ResumePhone\;|\;\else U.S. Citizen\;|\;\fi\contact{mailto:eshangark@gmail.com}{eshangark@gmail.com}\;|\;\contact{https://www.linkedin.com/in/eshangark/}{linkedin.com/in/eshangark}\;|\;\contact{https://github.com/eshangark}{github.com/eshangark}\;|\;\contact{https://eshangark.github.io/}{eshangark.github.io}}}
 \end{center}
 \vspace{-8pt}
 \section{Education}
 \begin{itemize}[topsep=0pt,itemsep=4pt]
 \item \textbf{University of Virginia, College of Arts \& Sciences}\hfill Charlottesville, VA\\
 \textit{Bachelor of Arts in Mathematics, Minor in Computer Science}\hfill\textit{Expected May 2030}\\
-Relevant courses: Data Structures \& Algorithms, Calculus 1.\hfill U.S. Citizen
+Relevant courses: Data Structures \& Algorithms, Calculus 1.\ifdefined\ResumePhone\hfill U.S. Citizen\fi
 \end{itemize}
 \section{Projects}
 \entry{Wharton Data Science Competition | Top 25 Semifinalist}{Feb 2025 -- Apr 2025}{Multi-Factor Basketball Ranking \& Win Probability Model}{}
