@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Eshan Garkhedkar's personal portfolio.">
-  <meta name="theme-color" content="#161815">
+  <meta name="theme-color" content="#151d25">
   <title>Eshan Garkhedkar</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23252d29'/%3E%3Ctext x='32' y='43' text-anchor='middle' fill='%23f4f1eb' font-family='Georgia' font-size='36'%3Ee%3C/text%3E%3C/svg%3E">
   <script>
-    let themePreference = 'system';
+    let themePreference = 'dark';
     try {
       const saved = localStorage.getItem('portfolio-theme');
       if (['system', 'dark', 'light'].includes(saved)) themePreference = saved;
@@ -16,15 +16,16 @@
     document.documentElement.dataset.theme = themePreference === 'system'
       ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
       : themePreference;
-    document.querySelector('meta[name="theme-color"]').content = document.documentElement.dataset.theme === 'light' ? '#f4f1eb' : '#161815';
+    document.querySelector('meta[name="theme-color"]').content = document.documentElement.dataset.theme === 'light' ? '#f1f0eb' : '#151d25';
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.documentElement.classList.add('opening');
       window.openingFallback = setTimeout(() => document.documentElement.classList.remove('opening'), 4000);
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=12">
-  <script src="script.js?v=11" defer></script>
-  <script src="opening.js?v=5" defer></script>
+  <link rel="stylesheet" href="styles.css?v=13">
+  <script src="script.js?v=12" defer></script>
+  <script src="opening.js?v=6" defer></script>
+  <script src="landscape.js?v=1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -64,6 +65,7 @@
           <figcaption>Photo by my brother</figcaption>
         </figure>
       </section>
+      <div class="night-landscape" aria-hidden="true"><canvas></canvas></div>
       <div class="section-layout">
         <nav class="navigation" aria-label="Portfolio sections">
           <a href="#about" aria-current="page">About<span class="nav-arrow" aria-hidden="true">↗</span></a>

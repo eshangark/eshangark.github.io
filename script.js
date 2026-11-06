@@ -38,18 +38,18 @@
 
   const toggle = document.querySelector('.theme-toggle');
   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
-  let preference = 'system';
+  let preference = 'dark';
   try {
     const saved = localStorage.getItem('portfolio-theme');
     if (['system', 'dark', 'light'].includes(saved)) preference = saved;
   } catch {}
 
   function setTheme(value) {
-    preference = ['system', 'dark', 'light'].includes(value) ? value : 'system';
+    preference = ['system', 'dark', 'light'].includes(value) ? value : 'dark';
     const theme = preference === 'system' ? (systemTheme.matches ? 'dark' : 'light') : preference;
     document.documentElement.dataset.theme = theme;
     toggle.value = preference;
-    document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#161815' : '#f4f1eb';
+    document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#151d25' : '#f1f0eb';
   }
   setTheme(preference);
   toggle.hidden = false;
