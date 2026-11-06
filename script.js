@@ -36,7 +36,9 @@
   renderSection();
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  const toggle = document.querySelector('.theme-toggle');
+  const themeSwitch = document.querySelector('.theme-switch');
+  const themeChoices = [...themeSwitch.querySelectorAll('[data-theme-choice]')];
+  const themeMore = themeSwitch.querySelector('.theme-more');
   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
   let preference = 'dark';
   try {
@@ -49,14 +51,31 @@
     const theme = preference === 'system' ? (systemTheme.matches ? 'dark' : 'light') : preference;
     document.documentElement.dataset.themePreference = preference;
     document.documentElement.dataset.theme = theme;
-    toggle.value = preference;
+    for (const button of themeChoices) {
+      const choice = button.dataset.themeChoice;
+      button.setAttribute('aria-pressed', String(choice === 'system' ? preference === 'system' : theme === choice));
+    }
     document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#151d25' : '#f2f5ed';
   }
   setTheme(preference);
-  toggle.hidden = false;
-  toggle.addEventListener('change', () => {
-    setTheme(toggle.value);
-    try { localStorage.setItem('portfolio-theme', preference); } catch {}
+  themeSwitch.hidden = false;
+  for (const button of themeChoices) {
+    button.addEventListener('click', () => {
+      const menuWasOpen = themeMore.open;
+      setTheme(button.dataset.themeChoice);
+      themeMore.open = false;
+      if (menuWasOpen) themeMore.querySelector('summary').focus();
+      try { localStorage.setItem('portfolio-theme', preference); } catch {}
+    });
+  }
+  document.addEventListener('click', event => {
+    if (!themeMore.contains(event.target)) themeMore.open = false;
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && themeMore.open) {
+      themeMore.open = false;
+      themeMore.querySelector('summary').focus();
+    }
   });
   systemTheme.addEventListener('change', () => {
     if (preference === 'system') setTheme(preference);
