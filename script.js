@@ -47,6 +47,7 @@
   function setTheme(value) {
     preference = ['system', 'dark', 'light'].includes(value) ? value : 'dark';
     const theme = preference === 'system' ? (systemTheme.matches ? 'dark' : 'light') : preference;
+    document.documentElement.dataset.themePreference = preference;
     document.documentElement.dataset.theme = theme;
     toggle.value = preference;
     document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#151d25' : '#f2f5ed';

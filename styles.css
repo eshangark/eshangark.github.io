@@ -26,7 +26,15 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(
 .header-note,.edition,.eyebrow,.portrait figcaption,.placeholder-rule,footer{font-size:15px;letter-spacing:.08em}
 .header-note{color:var(--muted)}.edition{text-transform:uppercase}
 .header-controls{display:flex;align-items:center;gap:24px;justify-self:end}
-.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 12px;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:30px;font:15px Arial,Helvetica,sans-serif;cursor:pointer}
+.theme-picker{position:relative;display:block;color:var(--muted)}
+.theme-picker:has(.theme-toggle[hidden]){display:none}
+.theme-picker::after{content:"";position:absolute;right:14px;top:18px;width:5px;height:5px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(45deg);pointer-events:none}
+.theme-icon{display:none;position:absolute;left:13px;top:14px;width:16px;height:16px;pointer-events:none}
+:root[data-theme-preference="system"] .theme-icon-system{display:block}
+:root:not([data-theme-preference="system"])[data-theme="dark"] .theme-icon-night{display:block}
+:root:not([data-theme-preference="system"])[data-theme="light"] .theme-icon-day{display:block}
+.theme-toggle{appearance:none;-webkit-appearance:none;display:block;width:124px;min-height:44px;padding:0 32px 0 38px;background:color-mix(in srgb,var(--ink) 3%,var(--paper));color:var(--ink);border:1px solid var(--line);border-radius:8px;font:13px/1.4 Arial,Helvetica,sans-serif;cursor:pointer;transition:border-color .2s,background .2s}
+.theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .theme-toggle:hover{border-color:var(--accent)}.theme-toggle option{background:var(--paper);color:var(--ink)}
 .hero{display:grid;grid-template-columns:1.25fr 1fr;align-items:center;gap:6%;padding:40px 0}
 .eyebrow{text-transform:uppercase;color:var(--muted);margin:0 0 23px;font-weight:500}
