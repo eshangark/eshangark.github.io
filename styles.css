@@ -27,18 +27,10 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(
 .header-note{color:var(--muted)}.edition{text-transform:uppercase}
 .header-controls{display:flex;align-items:center;gap:24px;justify-self:end}
 .theme-switch{display:flex;align-items:center;gap:2px}
-.scene-choice,.theme-more>summary{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:none;color:var(--muted);opacity:.48;cursor:pointer;transition:color .2s,opacity .2s}
-.scene-choice svg,.theme-more>summary svg{width:18px;height:18px}
-.scene-choice[aria-pressed="true"],.scene-choice:hover,.theme-more>summary:hover,.theme-more[open]>summary{color:var(--ink);opacity:1}
-.scene-choice:focus-visible,.theme-more>summary:focus-visible,.theme-menu button:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:4px}
-.theme-more{position:relative}
-.theme-more>summary{list-style:none;opacity:.4}
-.theme-more>summary::-webkit-details-marker{display:none}
-.theme-menu{position:absolute;z-index:10;right:0;top:calc(100% + 7px);width:210px;padding:5px;background:var(--paper);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px #0002}
-.theme-menu button{display:flex;align-items:center;gap:10px;min-height:44px;width:100%;padding:8px 10px;border:0;background:none;color:var(--muted);font:13px/1.4 Arial,Helvetica,sans-serif;text-align:left;cursor:pointer}
-.theme-menu button svg{width:16px;height:16px;flex-shrink:0}
-.theme-menu button:hover,.theme-menu button[aria-pressed="true"]{color:var(--ink)}
-.theme-menu button[aria-pressed="true"]::after{content:"✓";margin-left:auto}
+.scene-choice{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:none;color:var(--muted);opacity:.48;cursor:pointer;transition:color .2s,opacity .2s}
+.scene-choice svg{width:18px;height:18px}
+.scene-choice[aria-pressed="true"],.scene-choice:hover{color:var(--ink);opacity:1}
+.scene-choice:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:4px}
 
 .hero{display:grid;grid-template-columns:1.25fr 1fr;align-items:center;gap:6%;padding:40px 0}
 .eyebrow{text-transform:uppercase;color:var(--muted);margin:0 0 23px;font-weight:500}
