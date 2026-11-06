@@ -61,7 +61,7 @@
       const groups = [
         '.hero-copy>.eyebrow, .hero-note, .hero-bio, .social-links',
         '.header, .portrait',
-        '.night-landscape, .section-layout, footer'
+        '.scene-canvas, .section-layout, footer'
       ];
       groups.forEach((selector, index) => {
         document.querySelectorAll(selector).forEach(element => {
