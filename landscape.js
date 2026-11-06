@@ -11,9 +11,9 @@
   const homes = [[.08, .48], [.18, .62], [.27, .38], [.36, .57], [.45, .46], [.54, .65], [.63, .37], [.72, .58], [.82, .43], [.92, .64]];
   const flies = homes.map(([x, y], index) => ({ x, y, roams: index >= 7, phase: index * 1.91, offsetX: 0, offsetY: 0 }));
   const ridges = [
-    { token: '--ridge-back', points: [.58, .38, .53, .19, .42, .31, .5, .25, .43] },
-    { token: '--ridge-mid', points: [.62, .72, .49, .64, .76, .57, .36, .52, .4] },
-    { token: '--ridge-front', points: [.85, .74, .83, .71, .88, .77, .86, .67, .8] }
+    { token: '--ridge-back', depth: .008, points: [.58, .38, .53, .19, .42, .31, .5, .25, .43] },
+    { token: '--ridge-mid', depth: .018, points: [.62, .72, .49, .64, .76, .57, .36, .52, .4] },
+    { token: '--ridge-front', depth: .03, points: [.85, .74, .83, .71, .88, .77, .86, .67, .8] }
   ];
   let width = 1;
   let height = 180;
@@ -26,6 +26,8 @@
   let visible = true;
   let pointer = null;
   let colors;
+  let sceneDocumentTop = 0;
+  let scrollDepth = 0;
 
   function readColors() {
     const style = getComputedStyle(root);
@@ -37,13 +39,15 @@
   function draw(now) {
     context.clearRect(0, 0, width, height);
     for (const ridge of ridges) {
+      // A few pixels of relative travel add depth without shifting the layout.
+      const shift = reducedMotion.matches ? 0 : scrollDepth * ridge.depth;
       context.beginPath();
-      context.moveTo(0, mountainTop + ridge.points[0] * mountainHeight);
+      context.moveTo(0, mountainTop + ridge.points[0] * mountainHeight + shift);
       for (let i = 0; i < ridge.points.length - 1; i++) {
         const start = i * width / 8;
         const end = (i + 1) * width / 8;
-        context.bezierCurveTo(start + width / 20, mountainTop + ridge.points[i] * mountainHeight,
-          end - width / 20, mountainTop + ridge.points[i + 1] * mountainHeight, end, mountainTop + ridge.points[i + 1] * mountainHeight);
+        context.bezierCurveTo(start + width / 20, mountainTop + ridge.points[i] * mountainHeight + shift,
+          end - width / 20, mountainTop + ridge.points[i + 1] * mountainHeight + shift, end, mountainTop + ridge.points[i + 1] * mountainHeight + shift);
       }
       context.lineTo(width, height);
       context.lineTo(0, height);
@@ -52,12 +56,16 @@
       context.fill();
     }
 
-    const fadeTop = mountainTop + mountainHeight * .78;
+    // Blend over the lower half of the scene, reaching the page color before its edge.
+    const fadeTop = mountainTop + mountainHeight * .55;
     const fade = context.createLinearGradient(0, fadeTop, 0, height);
     fade.addColorStop(0, `${colors.paper}00`);
+    fade.addColorStop(.35, `${colors.paper}38`);
+    fade.addColorStop(.75, `${colors.paper}bf`);
+    fade.addColorStop(.96, colors.paper);
     fade.addColorStop(1, colors.paper);
     context.fillStyle = fade;
-    context.fillRect(0, fadeTop, width, mountainHeight * .22);
+    context.fillRect(0, fadeTop, width, height - fadeTop);
 
     const time = reducedMotion.matches ? 0 : now / 1000;
     for (const fly of flies) {
@@ -128,10 +136,16 @@
     if (!reducedMotion.matches && !document.hidden && visible) frame = requestAnimationFrame(animate);
   }
 
+  function updateScroll() {
+    scrollDepth = Math.max(0, Math.min(window.scrollY - sceneDocumentTop, 600));
+  }
+
   function resize() {
     const bounds = scene.getBoundingClientRect();
     width = Math.max(1, root.clientWidth);
     height = Math.max(1, bounds.height);
+    sceneDocumentTop = bounds.top + window.scrollY;
+    updateScroll();
     scene.style.setProperty('--scene-width', `${width}px`);
     const origin = (bounds.left + bounds.right - width) / 2;
     const land = landscape.getBoundingClientRect();
@@ -171,6 +185,7 @@
   readColors();
   new ResizeObserver(resize).observe(scene);
   window.addEventListener('resize', resize, { passive: true });
+  window.addEventListener('scroll', updateScroll, { passive: true });
   resize();
   restart();
 })();
