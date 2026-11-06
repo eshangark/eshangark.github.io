@@ -7,7 +7,7 @@
 
   const root = document.documentElement;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const homes = [[.12, .48], [.25, .62], [.38, .38], [.51, .57], [.64, .46], [.77, .65], [.88, .37]];
+  const homes = [[.08, .48], [.18, .62], [.27, .38], [.36, .57], [.45, .46], [.54, .65], [.63, .37], [.72, .58], [.82, .43], [.92, .64]];
   const flies = homes.map(([x, y], index) => ({ x, y, phase: index * 1.91, offsetX: 0, offsetY: 0 }));
   const ridges = [
     { token: '--ridge-back', points: [.58, .38, .53, .19, .42, .31, .5, .25, .43] },
@@ -71,25 +71,25 @@
       }
       fly.offsetX += (offsetX - fly.offsetX) * .06;
       fly.offsetY += (offsetY - fly.offsetY) * .06;
-      x = Math.max(9, Math.min(width - 9, x + fly.offsetX));
+      x = Math.max(14, Math.min(width - 14, x + fly.offsetX));
       y = Math.max(height * .13, Math.min(height * .83, y + fly.offsetY));
       const glow = reducedMotion.matches ? .65 : .45 + .4 * Math.pow((1 + Math.sin(time * 1.7 + p)) / 2, 2);
-      const halo = context.createRadialGradient(x, y, 0, x, y, 9);
+      const halo = context.createRadialGradient(x, y, 0, x, y, 14);
       halo.addColorStop(0, colors.fly);
       halo.addColorStop(1, `${colors.fly}00`);
       context.globalAlpha = glow * .28;
       context.fillStyle = halo;
-      context.fillRect(x - 9, y - 9, 18, 18);
+      context.fillRect(x - 14, y - 14, 28, 28);
       context.globalAlpha = glow * .5;
       context.fillStyle = colors.wings;
       context.beginPath();
-      context.ellipse(x - 2, y - 3, 2.8, 1.1, -.6, 0, Math.PI * 2);
-      context.ellipse(x + 2, y - 3, 2.8, 1.1, .6, 0, Math.PI * 2);
+      context.ellipse(x - 3, y - 4.5, 4.2, 1.65, -.6, 0, Math.PI * 2);
+      context.ellipse(x + 3, y - 4.5, 4.2, 1.65, .6, 0, Math.PI * 2);
       context.fill();
       context.globalAlpha = glow;
       context.fillStyle = colors.fly;
       context.beginPath();
-      context.ellipse(x, y, 1.25, 2, 0, 0, Math.PI * 2);
+      context.ellipse(x, y, 1.9, 3, 0, 0, Math.PI * 2);
       context.fill();
       context.globalAlpha = 1;
     }
