@@ -49,7 +49,7 @@
     const theme = preference === 'system' ? (systemTheme.matches ? 'dark' : 'light') : preference;
     document.documentElement.dataset.theme = theme;
     toggle.value = preference;
-    document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#151d25' : '#f1f0eb';
+    document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#151d25' : '#f2f5ed';
   }
   setTheme(preference);
   toggle.hidden = false;

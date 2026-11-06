@@ -26,15 +26,17 @@
   let visible = true;
   let pointer = null;
   let colors;
+  let isDay = false;
   let sceneDocumentTop = 0;
   let scrollDepth = 0;
   const startedAt = performance.now();
 
   function readColors() {
+    isDay = root.dataset.theme === 'light';
     const style = getComputedStyle(root);
     const token = name => style.getPropertyValue(name).trim();
     colors = { paper: token('--paper'), fly: token('--firefly'), wings: token('--muted'),
-      moon: token('--scene-moon'), cloud: token('--scene-cloud'), building: token('--scene-building'),
+      orb: token('--scene-orb'), bird: token('--scene-bird'), cloud: token('--scene-cloud'), building: token('--scene-building'),
       tree: token('--scene-tree'), river: token('--scene-river'), window: token('--scene-window') };
     ridges.forEach(ridge => { ridge.color = token(ridge.token); });
   }
@@ -63,13 +65,25 @@
     const y = area ? area.top + radius + 5 : mountainTop + 13;
     context.save();
     context.globalAlpha = .8;
-    context.fillStyle = colors.moon;
-    context.beginPath();context.arc(x, y, radius, 0, Math.PI * 2);context.fill();
-    // Clipping confines the cutout to the lunar disc.
-    context.clip();
-    context.globalAlpha = 1;
-    context.fillStyle = colors.paper;
-    context.beginPath();context.arc(x + radius * .49, y - radius * .24, radius * .94, 0, Math.PI * 2);context.fill();
+    context.fillStyle = colors.orb;
+    context.beginPath();
+    if (isDay) {
+      context.globalAlpha = .95;
+      context.arc(x, y, radius, 0, Math.PI * 2);
+    } else {
+      // One closed crescent path, with no painted or clipped disc around the dark side.
+      const dx = radius * .49, dy = -radius * .24, innerRadius = radius * .94;
+      const distance = Math.hypot(dx, dy);
+      const direction = Math.atan2(dy, dx);
+      const angle = Math.acos((radius * radius - innerRadius * innerRadius + distance * distance) / (2 * radius * distance));
+      const top = direction - angle, bottom = direction + angle;
+      const topX = radius * Math.cos(top), topY = radius * Math.sin(top);
+      const bottomX = radius * Math.cos(bottom), bottomY = radius * Math.sin(bottom);
+      context.arc(x, y, radius, bottom, top);
+      context.arc(x + dx, y + dy, innerRadius, Math.atan2(topY - dy, topX - dx), Math.atan2(bottomY - dy, bottomX - dx), true);
+      context.closePath();
+    }
+    context.fill();
     context.restore();
 
     const flightArea = area || { left: width * .64, right: width - 8, top: mountainTop - 6 };
@@ -81,7 +95,7 @@
     for (let i = 0; i < 2; i++) {
       const cx = flightArea.left + (flightArea.right - flightArea.left) / 2 + Math.sin(seconds * .035 + i * 2.4) * (flightArea.right - flightArea.left - cloudWidth) * .42;
       const cy = y + 15 + i * 47;
-      context.globalAlpha = i ? .065 : .12;
+      context.globalAlpha = isDay ? (i ? .11 : .18) : (i ? .065 : .12);
       context.fillStyle = colors.cloud;
       context.beginPath();
       context.moveTo(cx - cloudWidth / 2, cy);
@@ -92,14 +106,14 @@
     }
     // A short, rare event, first appearing after twelve seconds, then every 43 seconds.
     const phase = (seconds + 31) % 43;
-    if (!reducedMotion.matches && phase < .9) {
+    if (!isDay && !reducedMotion.matches && phase < .9) {
       const progress = phase / .9;
       const travel = Math.min(105, flightArea.right - flightArea.left - 20);
       const headX = flightArea.left + 10 + travel * progress;
       const headY = y + (area ? 68 : -9) + progress * (area ? 31 : 18);
       const tailX = Math.max(flightArea.left + 4, headX - 29);
       const streak = context.createLinearGradient(tailX, headY - 9, headX, headY);
-      streak.addColorStop(0, `${colors.moon}00`);streak.addColorStop(1, colors.moon);
+      streak.addColorStop(0, `${colors.orb}00`);streak.addColorStop(1, colors.orb);
       context.globalAlpha = Math.sin(progress * Math.PI) * .65;
       context.strokeStyle = streak;context.lineWidth = 1.2;context.lineCap = 'round';
       context.beginPath();context.moveTo(tailX, headY - 9);context.lineTo(headX, headY);context.stroke();
@@ -154,7 +168,7 @@
   }
 
   function drawRiver() {
-    context.save();context.globalAlpha = .37;context.fillStyle = colors.river;
+    context.save();context.globalAlpha = isDay ? .6 : .37;context.fillStyle = colors.river;
     context.beginPath();
     for (let i = 0; i <= 32; i++) {
       const t = i / 32, x = riverX(t), y = mountainTop + mountainHeight * (.55 + t * .45);
@@ -238,6 +252,17 @@
         if (x > area.left && x < area.right && y > area.top && y < area.bottom) {
           x = Math.abs(x - area.left) < Math.abs(x - area.right) ? area.left : area.right;
         }
+      }
+      if (isDay) {
+        const span = fly.roams ? 8 : 6;
+        const lift = reducedMotion.matches ? 3 : 3 + Math.sin(time * 3.5 + p) * 2;
+        context.save();context.globalAlpha = .72;context.strokeStyle = colors.bird;
+        context.lineWidth = 1.35;context.lineCap = 'round';
+        context.beginPath();context.moveTo(x - span, y - lift);
+        context.quadraticCurveTo(x - span * .45, y - lift - 2, x, y + 1);
+        context.quadraticCurveTo(x + span * .45, y - lift - 2, x + span, y - lift);
+        context.stroke();context.restore();
+        continue;
       }
       const altitude = Math.max(0, (mountainTop - y) / Math.max(1, mountainTop));
       const glow = (reducedMotion.matches ? .65 : .45 + .4 * Math.pow((1 + Math.sin(time * 1.7 + p)) / 2, 2)) * (1 - altitude * .45);
