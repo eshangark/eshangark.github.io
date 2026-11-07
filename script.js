@@ -38,7 +38,6 @@
 
   const themeSwitch = document.querySelector('.theme-switch');
   const themeChoices = [...themeSwitch.querySelectorAll('[data-theme-choice]')];
-  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
   let preference = 'system';
   try {
     const saved = localStorage.getItem('portfolio-theme');
@@ -47,12 +46,12 @@
 
   function setTheme(value) {
     preference = ['system', 'dark', 'light'].includes(value) ? value : 'system';
-    const theme = preference === 'system' ? (systemTheme.matches ? 'dark' : 'light') : preference;
+    const theme = preference === 'system' ? 'dark' : preference;
     document.documentElement.dataset.themePreference = preference;
     document.documentElement.dataset.theme = theme;
     for (const button of themeChoices) {
       const choice = button.dataset.themeChoice;
-      button.setAttribute('aria-pressed', String(theme === choice));
+      button.setAttribute('aria-pressed', String(preference === choice));
     }
     document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#151d25' : '#f2f5ed';
   }
@@ -64,9 +63,6 @@
       try { localStorage.setItem('portfolio-theme', preference); } catch {}
     });
   }
-  systemTheme.addEventListener('change', () => {
-    if (preference === 'system') setTheme(preference);
-  });
   window.addEventListener('storage', event => {
     if (event.key === 'portfolio-theme' || event.key === null) setTheme(event.newValue);
   });
