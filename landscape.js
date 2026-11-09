@@ -27,6 +27,7 @@
   let pointer = null;
   let colors;
   let isDay = false;
+  let grainPattern = null;
   let sceneDocumentTop = 0;
   let scrollDepth = 0;
   const startedAt = performance.now();
@@ -36,6 +37,7 @@
     const style = getComputedStyle(root);
     const token = name => style.getPropertyValue(name).trim();
     colors = { paper: token('--paper'), fly: token('--firefly'), wings: token('--muted'),
+      wash: token('--scene-wash'), haze: token('--scene-haze'),
       orb: token('--scene-orb'), bird: token('--scene-bird'), cloud: token('--scene-cloud'), building: token('--scene-building'),
       tree: token('--scene-tree'), river: token('--scene-river'), window: token('--scene-window') };
     ridges.forEach(ridge => { ridge.color = token(ridge.token); });
@@ -63,6 +65,13 @@
     const area = skyRegion && skyRegion.right - skyRegion.left >= radius * 2 + 8 ? skyRegion : null;
     const x = area ? area.left + (area.right - area.left) * .63 : width * .86;
     const y = area ? area.top + radius + 5 : mountainTop + 13;
+    const washRadius = Math.min(width * .24, 230);
+    const wash = context.createRadialGradient(x, y, 0, x, y, washRadius);
+    wash.addColorStop(0, `${colors.wash}${isDay ? '4d' : '42'}`);
+    wash.addColorStop(.48, `${colors.wash}1c`);
+    wash.addColorStop(1, `${colors.wash}00`);
+    context.fillStyle = wash;
+    context.fillRect(x - washRadius, y - washRadius, washRadius * 2, washRadius * 2);
     context.save();
     context.globalAlpha = .8;
     context.fillStyle = colors.orb;
@@ -202,6 +211,18 @@
       context.closePath();
       context.fillStyle = ridge.color;
       context.fill();
+      const haze = context.createLinearGradient(0, mountainTop, 0, mountainTop + mountainHeight * .83);
+      haze.addColorStop(.26, `${colors.haze}00`);
+      haze.addColorStop(1, `${colors.haze}${index === 2 ? '25' : '58'}`);
+      context.fillStyle = haze;
+      context.fill();
+      if (grainPattern) {
+        context.save();
+        context.globalCompositeOperation = 'soft-light';
+        context.fillStyle = grainPattern;
+        context.fill();
+        context.restore();
+      }
       if (index === 0) drawObservatory();
       if (index === 1) drawCabin();
     }
@@ -352,6 +373,12 @@
     .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; restart(); })
     .observe(scene);
+  const grain = new Image();
+  grain.addEventListener('load', () => {
+    grainPattern = context.createPattern(grain, 'repeat');
+    draw(performance.now());
+  });
+  grain.src = 'assets/paper-grain.svg';
   readColors();
   new ResizeObserver(resize).observe(scene);
   window.addEventListener('resize', resize, { passive: true });

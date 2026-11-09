@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160">
+  <filter id="grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".73" numOctaves="3" seed="7" stitchTiles="stitch"/>
+    <feColorMatrix type="matrix" values="2 0 0 0 -.5  2 0 0 0 -.5  2 0 0 0 -.5  0 0 0 0 .34"/>
+  </filter>
+  <rect width="160" height="160" filter="url(#grain)"/>
+</svg>
