@@ -1,6 +1,6 @@
 :root {
   color-scheme: dark;
-  --paper-veil: #151d258c; --paper: #151d25; --ink: #f1eee8; --muted: #d3d8dc; --quiet: #b2bdc6;
+  --paper: #151d25; --ink: #f1eee8; --muted: #d3d8dc; --quiet: #b2bdc6;
   --scene-wash: #4c638a; --scene-haze: #738ba4;
   --portrait-matte: #313941; --portrait-shadow: #050a1260;
   --line: #ffffff24; --accent: #c9c0af;
@@ -10,7 +10,7 @@
 }
 :root[data-theme="light"] {
   color-scheme: light;
-  --paper-veil: #f2f5ed30; --paper: #f2f5ed; --ink: #263b32; --muted: #475b4e; --quiet: #556b5b;
+  --paper: #f2f5ed; --ink: #263b32; --muted: #475b4e; --quiet: #556b5b;
   --scene-wash: #edcb88; --scene-haze: #dbe4cc;
   --portrait-matte: #fbfaf4; --portrait-shadow: #34443930;
   --line: #263b3230; --accent: #526d49;
@@ -20,7 +20,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:linear-gradient(var(--paper-veil),var(--paper-veil)),var(--paper) url("assets/paper-grain.svg");background-blend-mode:normal,soft-light;color:var(--ink);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
 [hidden]{display:none!important}
@@ -64,7 +64,6 @@ h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(34px,3.4vw,47px);
 footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 20px;padding:0 0 23px;color:var(--muted);font-size:14px;letter-spacing:.02em}footer a:hover{text-decoration:underline}
 .footer-landscape{grid-column:1/-1;position:relative;left:50%;width:var(--scene-width,100%);transform:translateX(-50%);height:clamp(66px,9vw,96px);isolation:isolate}
 .footer-ridges{display:block;width:100%;height:100%;opacity:.82;mask-image:linear-gradient(#000 50%,transparent)}
-.footer-grain{mix-blend-mode:soft-light}
 .footer-cabin{position:absolute;left:78%;bottom:42%;width:clamp(28px,4vw,44px);height:auto;transform:translateX(-50%)}
 .footer-cabin-shell{fill:color-mix(in srgb,var(--scene-building) 65%,var(--ridge-back))}
 .footer-window{fill:var(--scene-window);filter:drop-shadow(0 0 3px var(--scene-window))}

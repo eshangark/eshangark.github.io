@@ -23,10 +23,10 @@
       window.openingFallback = setTimeout(() => document.documentElement.classList.remove('opening'), 4000);
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=24">
+  <link rel="stylesheet" href="styles.css?v=25">
   <script src="script.js?v=17" defer></script>
   <script src="opening.js?v=7" defer></script>
-  <script src="landscape.js?v=8" defer></script>
+  <script src="landscape.js?v=9" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -200,8 +200,8 @@
       <div class="footer-landscape" aria-hidden="true">
         <svg class="footer-ridges" viewBox="0 0 1200 100" preserveAspectRatio="none">
           <defs>
-            <pattern id="footer-paper" width="160" height="160" patternUnits="userSpaceOnUse">
-              <image href="assets/paper-grain.svg" width="160" height="160"/>
+            <pattern id="footer-pencil" width="160" height="160" patternUnits="userSpaceOnUse">
+              <image href="assets/pencil-strokes.svg" width="160" height="160"/>
             </pattern>
             <linearGradient id="footer-haze" x2="0" y2="1">
               <stop offset=".42" stop-color="var(--scene-haze)" stop-opacity="0"/>
@@ -213,7 +213,7 @@
           <use href="#footer-back-ridge" fill="var(--ridge-mid)"/>
           <use href="#footer-back-ridge" fill="url(#footer-haze)"/>
           <use href="#footer-front-ridge" fill="var(--ridge-front)"/>
-          <use href="#footer-back-ridge" fill="url(#footer-paper)" class="footer-grain"/>
+          <use href="#footer-back-ridge" fill="url(#footer-pencil)"/>
         </svg>
         <svg class="footer-cabin" viewBox="0 0 48 36">
           <path class="footer-cabin-shell" d="M10 16h28v19H10zM6 17 24 4l18 13zM32 5h5v10h-5z"/>
