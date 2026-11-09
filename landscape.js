@@ -316,7 +316,7 @@
     height = Math.max(1, bounds.height);
     sceneDocumentTop = bounds.top + window.scrollY;
     updateScroll();
-    scene.style.setProperty('--scene-width', `${width}px`);
+    root.style.setProperty('--scene-width', `${width}px`);
     const origin = (bounds.left + bounds.right - width) / 2;
     const land = landscape.getBoundingClientRect();
     mountainTop = land.top - bounds.top;
