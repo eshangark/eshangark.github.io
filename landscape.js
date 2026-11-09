@@ -27,9 +27,6 @@
   let pointer = null;
   let colors;
   let isDay = false;
-  let pencilPattern = null;
-  let haloSprite;
-  let skyWash;
   let sceneDocumentTop = 0;
   let scrollDepth = 0;
   const startedAt = performance.now();
@@ -39,7 +36,6 @@
     const style = getComputedStyle(root);
     const token = name => style.getPropertyValue(name).trim();
     colors = { paper: token('--paper'), fly: token('--firefly'), wings: token('--muted'),
-      wash: token('--scene-wash'), haze: token('--scene-haze'),
       orb: token('--scene-orb'), bird: token('--scene-bird'), cloud: token('--scene-cloud'), building: token('--scene-building'),
       tree: token('--scene-tree'), river: token('--scene-river'), window: token('--scene-window') };
     ridges.forEach(ridge => { ridge.color = token(ridge.token); });
@@ -62,34 +58,11 @@
       + (reducedMotion.matches ? 0 : scrollDepth * ridge.depth);
   }
 
-  // Cache theme-dependent shading instead of rebuilding it on each frame.
-  function prepareLighting() {
+  function drawSky(now) {
     const radius = width > 520 ? 18 : 12;
     const area = skyRegion && skyRegion.right - skyRegion.left >= radius * 2 + 8 ? skyRegion : null;
     const x = area ? area.left + (area.right - area.left) * .63 : width * .86;
     const y = area ? area.top + radius + 5 : mountainTop + 13;
-    const washRadius = Math.min(width * .24, 230);
-    const gradient = context.createRadialGradient(x, y, 0, x, y, washRadius);
-    gradient.addColorStop(0, `${colors.wash}${isDay ? '4d' : '42'}`);
-    gradient.addColorStop(.48, `${colors.wash}1c`);
-    gradient.addColorStop(1, `${colors.wash}00`);
-    skyWash = { radius, area, x, y, washRadius, gradient };
-
-    if (isDay) return;
-    haloSprite = document.createElement('canvas');
-    haloSprite.width = haloSprite.height = 28;
-    const sprite = haloSprite.getContext('2d');
-    const halo = sprite.createRadialGradient(14, 14, 0, 14, 14, 14);
-    halo.addColorStop(0, colors.fly);
-    halo.addColorStop(1, `${colors.fly}00`);
-    sprite.fillStyle = halo;
-    sprite.fillRect(0, 0, 28, 28);
-  }
-
-  function drawSky(now) {
-    const { radius, area, x, y, washRadius, gradient } = skyWash;
-    context.fillStyle = gradient;
-    context.fillRect(x - washRadius, y - washRadius, washRadius * 2, washRadius * 2);
     context.save();
     context.globalAlpha = .8;
     context.fillStyle = colors.orb;
@@ -229,15 +202,6 @@
       context.closePath();
       context.fillStyle = ridge.color;
       context.fill();
-      const haze = context.createLinearGradient(0, mountainTop, 0, mountainTop + mountainHeight * .83);
-      haze.addColorStop(.26, `${colors.haze}00`);
-      haze.addColorStop(1, `${colors.haze}${index === 2 ? '25' : '58'}`);
-      context.fillStyle = haze;
-      context.fill();
-      if (pencilPattern) {
-        context.fillStyle = pencilPattern;
-        context.fill();
-      }
       if (index === 0) drawObservatory();
       if (index === 1) drawCabin();
     }
@@ -253,7 +217,7 @@
     fade.addColorStop(.96, colors.paper);
     fade.addColorStop(1, colors.paper);
     context.fillStyle = fade;
-    context.fillRect(0, fadeTop, width, height - fadeTop + 1);
+    context.fillRect(0, fadeTop, width, height - fadeTop);
 
     const time = reducedMotion.matches ? 0 : now / 1000;
     for (const fly of flies) {
@@ -309,8 +273,12 @@
         context.beginPath();context.moveTo(reflectedX - 2, y + 2);context.lineTo(reflectedX + 2, y + 2);context.stroke();
         context.globalAlpha = 1;
       }
+      const halo = context.createRadialGradient(x, y, 0, x, y, 14);
+      halo.addColorStop(0, colors.fly);
+      halo.addColorStop(1, `${colors.fly}00`);
       context.globalAlpha = glow * .28;
-      context.drawImage(haloSprite, x - 14, y - 14);
+      context.fillStyle = halo;
+      context.fillRect(x - 14, y - 14, 28, 28);
       context.globalAlpha = glow * .5;
       context.fillStyle = colors.wings;
       context.beginPath();
@@ -327,13 +295,7 @@
   }
 
   function animate(now) {
-    // Keep a steady 30 fps cadence even when a refresh lands just before the deadline.
-    const interval = 1000 / 30;
-    const elapsed = now - lastDraw;
-    if (elapsed >= interval - 1) {
-      draw(now);
-      lastDraw = elapsed > interval * 2 ? now : lastDraw + interval;
-    }
+    if (now - lastDraw >= 1000 / 30) { draw(now); lastDraw = now; }
     frame = requestAnimationFrame(animate);
   }
 
@@ -371,12 +333,10 @@
       : { left: portrait.right, right: width - 18, top: portrait.top + 70 };
     if (skyRegion.right - skyRegion.left < 36) skyRegion = null;
     protectedAreas = [...scene.querySelectorAll('.hero-copy, .portrait')].map(relative);
-    // The scene is soft illustration. Bound its pixel cost on large Retina displays.
-    const ratio = Math.min(devicePixelRatio || 1, 1.5, Math.max(1, Math.sqrt(1600000 / (width * height))));
+    const ratio = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(width * ratio);
     canvas.height = Math.round(height * ratio);
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    prepareLighting();
     draw(performance.now());
   }
 
@@ -388,20 +348,10 @@
   scene.addEventListener('pointerleave', () => { pointer = null; });
   reducedMotion.addEventListener('change', restart);
   document.addEventListener('visibilitychange', restart);
-  new MutationObserver(() => { readColors(); prepareLighting(); draw(performance.now()); })
+  new MutationObserver(() => { readColors(); draw(performance.now()); })
     .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; restart(); })
     .observe(scene);
-  const pencil = new Image();
-  pencil.addEventListener('load', () => {
-    const tile = document.createElement('canvas');
-    tile.width = pencil.naturalWidth;
-    tile.height = pencil.naturalHeight;
-    tile.getContext('2d').drawImage(pencil, 0, 0);
-    pencilPattern = context.createPattern(tile, 'repeat');
-    draw(performance.now());
-  });
-  pencil.src = 'assets/pencil-strokes.svg';
   readColors();
   new ResizeObserver(resize).observe(scene);
   window.addEventListener('resize', resize, { passive: true });
