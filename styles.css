@@ -1,7 +1,7 @@
 :root {
   color-scheme: dark;
   --paper: #151d25; --ink: #f1eee8; --muted: #d3d8dc; --quiet: #b2bdc6;
-  --mountain-art: url("assets/mount-charleston-night.svg");
+  --mountain-art: url("assets/mount-charleston-night.webp");
   --portrait-border: #313941; --sky-wash: #4c638a33;
   --line: #ffffff24; --accent: #c9c0af;
   --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #f5e2a3;
@@ -11,7 +11,7 @@
 :root[data-theme="light"] {
   color-scheme: light;
   --paper: #f2f5ed; --ink: #263b32; --muted: #475b4e; --quiet: #556b5b;
-  --mountain-art: url("assets/mount-charleston-day.svg");
+  --mountain-art: url("assets/mount-charleston-day.webp");
   --portrait-border: #fbfaf4; --sky-wash: #edcb8840;
   --line: #263b3230; --accent: #526d49;
   --ridge-back: #9cb79b; --ridge-mid: #729567; --ridge-front: #4c744c; --firefly: #38544c;
