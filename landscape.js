@@ -10,11 +10,7 @@
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const homes = [[.08, .48], [.18, .62], [.27, .38], [.36, .57], [.45, .46], [.54, .65], [.63, .37], [.72, .58], [.82, .43], [.92, .64]];
   const flies = homes.map(([x, y], index) => ({ x, y, roams: index >= 7, phase: index * 1.91, offsetX: 0, offsetY: 0 }));
-  const ridges = [
-    { token: '--ridge-back', depth: .008, points: [.58, .38, .53, .19, .42, .31, .5, .25, .43] },
-    { token: '--ridge-mid', depth: .018, points: [.62, .72, .49, .64, .76, .57, .36, .52, .4] },
-    { token: '--ridge-front', depth: .03, points: [.85, .74, .83, .71, .88, .77, .86, .67, .8] }
-  ];
+  const landmarkDepth = { observatory: .008, cabin: .018, pine: .03 };
   let width = 1;
   let height = 180;
   let mountainTop = 0;
@@ -39,51 +35,15 @@
     colors = { paper: token('--paper'), fly: token('--firefly'), wings: token('--muted'),
       orb: token('--scene-orb'), bird: token('--scene-bird'), cloud: token('--scene-cloud'), building: token('--scene-building'),
       tree: token('--scene-tree'), river: token('--scene-river'), window: token('--scene-window') };
-    ridges.forEach(ridge => { ridge.color = token(ridge.token); });
   }
 
-  // Match each landmark to the curved ridge rather than letting it float above it.
-  function ridgeY(ridge, x) {
-    const position = Math.max(0, Math.min(7.999, x / width * 8));
-    const segment = Math.floor(position);
-    const fraction = position - segment;
-    let low = 0, high = 1;
-    for (let i = 0; i < 10; i++) {
-      const t = (low + high) / 2;
-      const curveX = 1.2 * (1 - t) ** 2 * t + 1.8 * (1 - t) * t * t + t ** 3;
-      if (curveX < fraction) low = t; else high = t;
-    }
-    const t = (low + high) / 2;
-    const mix = t * t * (3 - 2 * t);
-    return mountainTop + (ridge.points[segment] * (1 - mix) + ridge.points[segment + 1] * mix) * mountainHeight
-      + (reducedMotion.matches ? 0 : scrollDepth * ridge.depth);
+  function landmarkY(fraction, depth) {
+    return mountainTop + fraction * mountainHeight
+      + (reducedMotion.matches ? 0 : scrollDepth * depth);
   }
 
   function drawSky(now) {
-    const { radius, area, x, y } = sky;
-    context.save();
-    context.globalAlpha = .8;
-    context.fillStyle = colors.orb;
-    context.beginPath();
-    if (isDay) {
-      context.globalAlpha = .95;
-      context.arc(x, y, radius, 0, Math.PI * 2);
-    } else {
-      // One closed crescent path, with no painted or clipped disc around the dark side.
-      const dx = radius * .49, dy = -radius * .24, innerRadius = radius * .94;
-      const distance = Math.hypot(dx, dy);
-      const direction = Math.atan2(dy, dx);
-      const angle = Math.acos((radius * radius - innerRadius * innerRadius + distance * distance) / (2 * radius * distance));
-      const top = direction - angle, bottom = direction + angle;
-      const topX = radius * Math.cos(top), topY = radius * Math.sin(top);
-      const bottomX = radius * Math.cos(bottom), bottomY = radius * Math.sin(bottom);
-      context.arc(x, y, radius, bottom, top);
-      context.arc(x + dx, y + dy, innerRadius, Math.atan2(topY - dy, topX - dx), Math.atan2(bottomY - dy, bottomX - dx), true);
-      context.closePath();
-    }
-    context.fill();
-    context.restore();
-
+    const { area, y } = sky;
     const flightArea = area || { left: width * .64, right: width - 8, top: mountainTop - 6 };
     context.save();
     const skyBottom = area ? mountainTop : mountainTop + mountainHeight * .45;
@@ -120,7 +80,7 @@
   }
 
   function drawObservatory() {
-    const x = width * .375, y = ridgeY(ridges[0], x) + 1;
+    const x = width * .375, y = landmarkY(.19, landmarkDepth.observatory) + 1;
     const scale = width > 520 ? 1 : .8;
     context.save();context.translate(x, y);context.scale(scale, scale);
     context.fillStyle = colors.building;
@@ -133,7 +93,7 @@
   }
 
   function drawCabin() {
-    const x = width * .79, y = ridgeY(ridges[1], x) + 2;
+    const x = width * .79, y = landmarkY(.47, landmarkDepth.cabin) + 2;
     const scale = width > 520 ? 1 : .85;
     context.save();context.translate(x, y);context.scale(scale, scale);
     context.fillStyle = colors.building;
@@ -145,7 +105,7 @@
   }
 
   function drawTree() {
-    const x = width * .115, y = ridgeY(ridges[2], x);
+    const x = width * .115, y = landmarkY(.74, landmarkDepth.pine);
     const scale = width > 520 ? 1 : .82;
     context.save();context.translate(x, y);context.scale(scale, scale);
     context.fillStyle = colors.tree;context.fillRect(-1.4, -39, 2.8, 42);
@@ -184,25 +144,8 @@
   function draw(now) {
     context.clearRect(0, 0, width, height);
     drawSky(now);
-    for (const [index, ridge] of ridges.entries()) {
-      // A few pixels of relative travel add depth without shifting the layout.
-      const shift = reducedMotion.matches ? 0 : scrollDepth * ridge.depth;
-      context.beginPath();
-      context.moveTo(0, mountainTop + ridge.points[0] * mountainHeight + shift);
-      for (let i = 0; i < ridge.points.length - 1; i++) {
-        const start = i * width / 8;
-        const end = (i + 1) * width / 8;
-        context.bezierCurveTo(start + width / 20, mountainTop + ridge.points[i] * mountainHeight + shift,
-          end - width / 20, mountainTop + ridge.points[i + 1] * mountainHeight + shift, end, mountainTop + ridge.points[i + 1] * mountainHeight + shift);
-      }
-      context.lineTo(width, height);
-      context.lineTo(0, height);
-      context.closePath();
-      context.fillStyle = ridge.color;
-      context.fill();
-      if (index === 0) drawObservatory();
-      if (index === 1) drawCabin();
-    }
+    drawObservatory();
+    drawCabin();
     drawRiver();
     drawTree();
 
@@ -334,7 +277,7 @@
     const area = skyRegion && skyRegion.right - skyRegion.left >= radius * 2 + 8 ? skyRegion : null;
     const x = area ? area.left + (area.right - area.left) * .63 : width * .86;
     const y = area ? area.top + radius + 5 : mountainTop + 13;
-    sky = { radius, area, x, y };
+    sky = { area, y };
     scene.style.setProperty('--orb-x', `${x + origin - bounds.left}px`);
     scene.style.setProperty('--orb-y', `${y}px`);
     protectedAreas = [...scene.querySelectorAll('.hero-copy, .portrait')].map(relative);
