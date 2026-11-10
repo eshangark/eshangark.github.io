@@ -1,6 +1,7 @@
 :root {
   color-scheme: dark;
   --paper: #151d25; --ink: #f1eee8; --muted: #d3d8dc; --quiet: #b2bdc6;
+  --portrait-border: #313941;
   --line: #ffffff24; --accent: #c9c0af;
   --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #f5e2a3;
   --scene-orb: #e5dfce; --scene-cloud: #9aa7bb; --scene-building: #15222e; --scene-bird: #b2bdc6;
@@ -9,6 +10,7 @@
 :root[data-theme="light"] {
   color-scheme: light;
   --paper: #f2f5ed; --ink: #263b32; --muted: #475b4e; --quiet: #556b5b;
+  --portrait-border: #fbfaf4;
   --line: #263b3230; --accent: #526d49;
   --ridge-back: #9cb79b; --ridge-mid: #729567; --ridge-front: #4c744c; --firefly: #38544c;
   --scene-orb: #dda943; --scene-cloud: #8fa6b6; --scene-building: #586c54; --scene-bird: #324e42;
@@ -39,7 +41,7 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .hero-note{font-size:18px;line-height:1.8;color:var(--muted);margin:22px 0 0}
 .hero-bio{max-width:430px;font-size:18px;line-height:1.7;color:var(--ink);margin:12px 0 0}
 .portrait{margin:0;max-width:350px;width:100%;justify-self:end;transform:rotate(2deg)}
-.portrait-frame{border-radius:18px;overflow:hidden;isolation:isolate;clip-path:inset(0 round 18px)}
+.portrait-frame{border-radius:18px;overflow:hidden;border:3px solid var(--portrait-border)}
 .portrait img{display:block;width:100%;height:auto;aspect-ratio:32/38;object-fit:cover}
 .hero-scene{position:relative}
 .night-landscape{height:180px}
