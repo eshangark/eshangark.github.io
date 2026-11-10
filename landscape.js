@@ -19,7 +19,7 @@
 
   const skyLayer = sprite('scene-sky');
   const clouds = [sprite('scene-cloud', skyLayer), sprite('scene-cloud', skyLayer)];
-  const star = sprite('scene-star', skyLayer);
+  const star = sprite('scene-star');
   const flies = homes.map(([x, y], index) => {
     const element = sprite('scene-fly');
     element.innerHTML = `<span class="fly-glow"></span><svg viewBox="-14 -14 28 28">
@@ -75,7 +75,7 @@
   }
 
   function moveSky(now) {
-    const { area, y, top, span, cloudWidth } = sky;
+    const { y, top, span, cloudWidth } = sky;
     const seconds = reducedMotion.matches ? 0 : (now - startedAt) / 1000;
     clouds.forEach((cloud, i) => {
       const x = (span - cloudWidth) * (.5 + Math.sin(seconds * .035 + i * 2.4) * .42);
@@ -83,15 +83,21 @@
     });
     // First visible after twelve seconds, then every 43 seconds.
     const phase = (seconds + 31) % 43;
-    const shooting = !isDay && !reducedMotion.matches && phase < .9;
+    const duration = 1.65;
+    const shooting = !isDay && !reducedMotion.matches && phase < duration;
     star.hidden = !shooting;
     if (shooting) {
-      const progress = phase / .9;
-      const headX = 10 + Math.min(105, span - 20) * progress;
-      const headY = y - top + (area ? 68 : -9) + progress * (area ? 31 : 18);
-      const length = Math.min(29, headX - 4);
-      place(star, headX - length, headY - 9, ` rotate(${Math.atan2(9, length)}rad) scaleX(${Math.hypot(length, 9) / 31})`);
-      star.style.opacity = Math.sin(progress * Math.PI) * .65;
+      const progress = phase / duration;
+      // Cross the clear strip above the ridge, outside the clouds' clipping box.
+      const travel = width * .8;
+      const drop = Math.min(28, travel * .07);
+      const headX = width * .1 + travel * progress;
+      const headY = mountainTop - 8 - drop * (1 - progress);
+      const tail = Math.min(144, width * .17, headX - 4);
+      const rise = tail * drop / travel;
+      place(star, headX - tail, headY - rise,
+        ` rotate(${Math.atan2(rise, tail)}rad) scaleX(${Math.hypot(tail, rise) / 31})`);
+      star.style.opacity = Math.sin(progress * Math.PI) * .75;
     }
   }
 
