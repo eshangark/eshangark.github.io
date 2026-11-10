@@ -215,15 +215,15 @@
       const { element, bird, reflection } = fly;
       place(element, x - 14, y - 14);
       if (isDay) {
-        const span = fly.roams ? 8 : 6;
+        const span = fly.roams ? 10 : 8;
         const lift = reducedMotion.matches ? 3 : 3 + Math.sin(time * 3.5 + p) * 2;
         bird.setAttribute('d', `M${-span} ${-lift} Q${-span * .45} ${-lift - 2} 0 1 Q${span * .45} ${-lift - 2} ${span} ${-lift}`);
-        element.style.opacity = .72;
+        element.style.opacity = .88;
         reflection.hidden = true;
         continue;
       }
       const altitude = Math.max(0, (mountainTop - y) / Math.max(1, mountainTop));
-      const glow = (reducedMotion.matches ? .65 : .45 + .4 * ((1 + Math.sin(time * 1.7 + p)) / 2) ** 2) * (1 - altitude * .45);
+      const glow = (reducedMotion.matches ? .82 : .62 + .36 * ((1 + Math.sin(time * 1.7 + p)) / 2) ** 2) * (1 - altitude * .3);
       element.style.opacity = glow;
       const waterT = (y - mountainTop - mountainHeight * .55) / (mountainHeight * .45);
       const reflectedX = riverX(waterT);

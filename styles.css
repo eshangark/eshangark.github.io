@@ -4,7 +4,7 @@
   --mountain-art: url("assets/mount-charleston-night.webp");
   --portrait-border: #313941; --sky-wash: #4c638a33;
   --line: #ffffff24; --accent: #c9c0af;
-  --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #f5e2a3;
+  --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #ffe9a8;
   --scene-orb: #e5dfce; --scene-cloud: #9aa7bb; --scene-building: #15222e; --scene-bird: #b2bdc6;
   --scene-tree: #101c24; --scene-river: #7293a5; --scene-window: #dfbc79;
 }
@@ -15,7 +15,7 @@
   --portrait-border: #fbfaf4; --sky-wash: #edcb8840;
   --line: #263b3230; --accent: #526d49;
   --ridge-back: #9cb79b; --ridge-mid: #729567; --ridge-front: #4c744c; --firefly: #38544c;
-  --scene-orb: #dda943; --scene-cloud: #8fa6b6; --scene-building: #586c54; --scene-bird: #324e42;
+  --scene-orb: #dda943; --scene-cloud: #8fa6b6; --scene-building: #586c54; --scene-bird: #28463a;
   --scene-tree: #2d5038; --scene-river: #7caab4; --scene-window: #b4c8c4;
 }
 *{box-sizing:border-box}
@@ -86,11 +86,11 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .scene-cloud{height:18px;background:var(--scene-cloud);opacity:.12;border-radius:56% 67% 38% 43% / 83% 85% 23% 20%}
 .scene-cloud:nth-child(2){opacity:.065}
 .scene-star{width:31px;height:1px;transform-origin:left center;background:linear-gradient(to right,transparent,var(--scene-orb))}
-.scene-fly,.scene-fly svg,.fly-glow{width:28px;height:28px}
-.fly-glow{position:absolute;inset:0;background:radial-gradient(circle,var(--firefly),transparent 70%);opacity:.28}
-.fly-insect{fill:var(--firefly)}
-.fly-wing{fill:var(--muted);opacity:.5}
-.fly-bird{display:none;fill:none;stroke:var(--scene-bird);stroke-width:1.35;stroke-linecap:round}
+.scene-fly,.scene-fly svg{width:28px;height:28px}
+.fly-glow{position:absolute;inset:-4px;background:radial-gradient(circle,var(--firefly),transparent 70%);opacity:.43}
+.fly-insect{fill:var(--firefly);transform:scale(1.25)}
+.fly-wing{fill:var(--muted);opacity:.62}
+.fly-bird{display:none;fill:none;stroke:var(--scene-bird);stroke-width:1.7;stroke-linecap:round}
 .scene-reflection{width:4px;height:1px;background:var(--scene-window)}
 :root[data-theme="light"] .scene-cloud{opacity:.18}
 :root[data-theme="light"] .scene-cloud:nth-child(2){opacity:.11}
