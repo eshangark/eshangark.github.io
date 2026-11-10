@@ -41,7 +41,7 @@
   let sky;
   let protectedAreas = [];
   let frame = 0;
-  let lastDraw = 0;
+  let lastFrame = 0;
   let visible = true;
   let pointer = null;
   let colors;
@@ -176,7 +176,7 @@
     context.fillRect(0, fadeTop, width, height - fadeTop);
   }
 
-  function moveSprites(now) {
+  function moveSprites(now, pointerEase = .06) {
     moveSky(now);
     const time = reducedMotion.matches ? 0 : now / 1000;
     for (const fly of flies) {
@@ -201,8 +201,8 @@
         offsetX = dx / Math.max(distance, 1) * force;
         offsetY = dy / Math.max(distance, 1) * force;
       }
-      fly.offsetX += (offsetX - fly.offsetX) * .06;
-      fly.offsetY += (offsetY - fly.offsetY) * .06;
+      fly.offsetX += (offsetX - fly.offsetX) * pointerEase;
+      fly.offsetY += (offsetY - fly.offsetY) * pointerEase;
       x = Math.max(14, Math.min(width - 14, x + fly.offsetX));
       y = Math.max(roaming ? skyRegion.top : mountainTop + mountainHeight * .13,
         Math.min(mountainTop + mountainHeight * .83, y + fly.offsetY));
@@ -236,14 +236,19 @@
   }
 
   function animate(now) {
-    if (now - lastDraw >= 1000 / 30) { moveSprites(now); lastDraw = now; }
+    // Keep the cursor response consistent across display refresh rates.
+    const elapsed = Math.max(0, now - lastFrame);
+    const pointerEase = 1 - .94 ** (elapsed * 30 / 1000);
+    moveSprites(now, pointerEase);
+    lastFrame = now;
     frame = requestAnimationFrame(animate);
   }
 
   function restart() {
     cancelAnimationFrame(frame);
     frame = 0;
-    moveSprites(performance.now());
+    lastFrame = performance.now();
+    moveSprites(lastFrame);
     if (!reducedMotion.matches && !document.hidden && visible) frame = requestAnimationFrame(animate);
   }
 
