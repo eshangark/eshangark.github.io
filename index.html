@@ -23,10 +23,10 @@
       window.openingFallback = setTimeout(() => document.documentElement.classList.remove('opening'), 4000);
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=30">
+  <link rel="stylesheet" href="styles.css?v=31">
   <script src="script.js?v=17" defer></script>
   <script src="opening.js?v=7" defer></script>
-  <script src="landscape.js?v=11" defer></script>
+  <script src="landscape.js?v=12" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -79,6 +79,7 @@
         <circle class="scene-sun" cx="18" cy="18" r="18"/>
       </svg>
       <canvas class="scene-canvas" aria-hidden="true"></canvas>
+      <div class="scene-motion" aria-hidden="true"></div>
       </div>
       <div class="section-layout">
         <nav class="navigation" aria-label="Portfolio sections">

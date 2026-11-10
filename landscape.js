@@ -1,16 +1,38 @@
-// A small, self-contained canvas scene. All text and navigation remain ordinary HTML.
+// Paint the scenery on resize or theme change. Move small elements for the animation.
 (() => {
   const scene = document.querySelector('.hero-scene');
   const landscape = scene?.querySelector('.night-landscape');
   const canvas = scene?.querySelector('canvas');
   const context = canvas?.getContext('2d');
-  if (!context) return;
+  const motion = scene?.querySelector('.scene-motion');
+  if (!context || !motion) return;
 
   const root = document.documentElement;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const homes = [[.08, .48], [.18, .62], [.27, .38], [.36, .57], [.45, .46], [.54, .65], [.63, .37], [.72, .58], [.82, .43], [.92, .64]];
-  const flies = homes.map(([x, y], index) => ({ x, y, roams: index >= 7, phase: index * 1.91, offsetX: 0, offsetY: 0 }));
-  const landmarkDepth = { observatory: .008, cabin: .018, pine: .03 };
+  function sprite(className, parent = motion) {
+    const element = document.createElement('span');
+    element.className = className;
+    parent.append(element);
+    return element;
+  }
+
+  const skyLayer = sprite('scene-sky');
+  const clouds = [sprite('scene-cloud', skyLayer), sprite('scene-cloud', skyLayer)];
+  const star = sprite('scene-star', skyLayer);
+  const flies = homes.map(([x, y], index) => {
+    const element = sprite('scene-fly');
+    element.innerHTML = `<span class="fly-glow"></span><svg viewBox="-14 -14 28 28">
+      <g class="fly-insect">
+        <ellipse class="fly-wing" cx="-3" cy="-4.5" rx="4.2" ry="1.65" transform="rotate(-34 -3 -4.5)"/>
+        <ellipse class="fly-wing" cx="3" cy="-4.5" rx="4.2" ry="1.65" transform="rotate(34 3 -4.5)"/>
+        <ellipse cx="0" cy="0" rx="1.9" ry="3"/>
+      </g>
+      <path class="fly-bird" d="M-6 -3 Q-2.7 -5 0 1 Q2.7 -5 6 -3"/>
+    </svg>`;
+    return { x, y, element, bird: element.querySelector('.fly-bird'),
+      reflection: sprite('scene-reflection'), roams: index >= 7, phase: index * 1.91, offsetX: 0, offsetY: 0 };
+  });
   let width = 1;
   let height = 180;
   let mountainTop = 0;
@@ -24,63 +46,57 @@
   let pointer = null;
   let colors;
   let isDay = false;
-  let sceneDocumentTop = 0;
-  let scrollDepth = 0;
   const startedAt = performance.now();
 
   function readColors() {
     isDay = root.dataset.theme === 'light';
     const style = getComputedStyle(root);
     const token = name => style.getPropertyValue(name).trim();
-    colors = { paper: token('--paper'), fly: token('--firefly'), wings: token('--muted'),
-      orb: token('--scene-orb'), bird: token('--scene-bird'), cloud: token('--scene-cloud'), building: token('--scene-building'),
+    colors = { paper: token('--paper'), building: token('--scene-building'),
       tree: token('--scene-tree'), river: token('--scene-river'), window: token('--scene-window') };
   }
 
-  function landmarkY(fraction, depth) {
-    return mountainTop + fraction * mountainHeight
-      + (reducedMotion.matches ? 0 : scrollDepth * depth);
+  function place(element, x, y, extraTransform = '') {
+    element.style.transform = `translate3d(${x}px,${y}px,0)${extraTransform}`;
   }
 
-  function drawSky(now) {
-    const { area, y } = sky;
+  function positionSky() {
+    const { area } = sky;
     const flightArea = area || { left: width * .64, right: width - 8, top: mountainTop - 6 };
-    context.save();
     const skyBottom = area ? mountainTop : mountainTop + mountainHeight * .45;
-    context.beginPath();context.rect(flightArea.left, flightArea.top - 6, flightArea.right - flightArea.left, skyBottom - flightArea.top + 6);context.clip();
+    const span = flightArea.right - flightArea.left;
+    const cloudWidth = Math.min(110, span * .76);
+    Object.assign(skyLayer.style, {
+      left: `${flightArea.left}px`, top: `${flightArea.top - 6}px`,
+      width: `${span}px`, height: `${skyBottom - flightArea.top + 6}px`
+    });
+    clouds.forEach(cloud => { cloud.style.width = `${cloudWidth}px`; });
+    Object.assign(sky, { top: flightArea.top - 6, span, cloudWidth });
+  }
+
+  function moveSky(now) {
+    const { area, y, top, span, cloudWidth } = sky;
     const seconds = reducedMotion.matches ? 0 : (now - startedAt) / 1000;
-    const cloudWidth = Math.min(110, (flightArea.right - flightArea.left) * .76);
-    for (let i = 0; i < 2; i++) {
-      const cx = flightArea.left + (flightArea.right - flightArea.left) / 2 + Math.sin(seconds * .035 + i * 2.4) * (flightArea.right - flightArea.left - cloudWidth) * .42;
-      const cy = y + 15 + i * 47;
-      context.globalAlpha = isDay ? (i ? .11 : .18) : (i ? .065 : .12);
-      context.fillStyle = colors.cloud;
-      context.beginPath();
-      context.moveTo(cx - cloudWidth / 2, cy);
-      context.bezierCurveTo(cx - cloudWidth * .2, cy - 1, cx - cloudWidth * .2, cy - 12, cx, cy - 8);
-      context.bezierCurveTo(cx + cloudWidth * .22, cy - 16, cx + cloudWidth * .22, cy - 3, cx + cloudWidth / 2, cy);
-      context.bezierCurveTo(cx + cloudWidth * .15, cy + 5, cx - cloudWidth * .22, cy + 6, cx - cloudWidth / 2, cy);
-      context.fill();
-    }
-    // A short, rare event, first appearing after twelve seconds, then every 43 seconds.
+    clouds.forEach((cloud, i) => {
+      const x = (span - cloudWidth) * (.5 + Math.sin(seconds * .035 + i * 2.4) * .42);
+      place(cloud, x, y - top + 2 + i * 47);
+    });
+    // First visible after twelve seconds, then every 43 seconds.
     const phase = (seconds + 31) % 43;
-    if (!isDay && !reducedMotion.matches && phase < .9) {
+    const shooting = !isDay && !reducedMotion.matches && phase < .9;
+    star.hidden = !shooting;
+    if (shooting) {
       const progress = phase / .9;
-      const travel = Math.min(105, flightArea.right - flightArea.left - 20);
-      const headX = flightArea.left + 10 + travel * progress;
-      const headY = y + (area ? 68 : -9) + progress * (area ? 31 : 18);
-      const tailX = Math.max(flightArea.left + 4, headX - 29);
-      const streak = context.createLinearGradient(tailX, headY - 9, headX, headY);
-      streak.addColorStop(0, `${colors.orb}00`);streak.addColorStop(1, colors.orb);
-      context.globalAlpha = Math.sin(progress * Math.PI) * .65;
-      context.strokeStyle = streak;context.lineWidth = 1.2;context.lineCap = 'round';
-      context.beginPath();context.moveTo(tailX, headY - 9);context.lineTo(headX, headY);context.stroke();
+      const headX = 10 + Math.min(105, span - 20) * progress;
+      const headY = y - top + (area ? 68 : -9) + progress * (area ? 31 : 18);
+      const length = Math.min(29, headX - 4);
+      place(star, headX - length, headY - 9, ` rotate(${Math.atan2(9, length)}rad) scaleX(${Math.hypot(length, 9) / 31})`);
+      star.style.opacity = Math.sin(progress * Math.PI) * .65;
     }
-    context.restore();
   }
 
   function drawObservatory() {
-    const x = width * .375, y = landmarkY(.19, landmarkDepth.observatory) + 1;
+    const x = width * .375, y = mountainTop + mountainHeight * .19 + 1;
     const scale = width > 520 ? 1 : .8;
     context.save();context.translate(x, y);context.scale(scale, scale);
     context.fillStyle = colors.building;
@@ -93,7 +109,7 @@
   }
 
   function drawCabin() {
-    const x = width * .79, y = landmarkY(.47, landmarkDepth.cabin) + 2;
+    const x = width * .79, y = mountainTop + mountainHeight * .47 + 2;
     const scale = width > 520 ? 1 : .85;
     context.save();context.translate(x, y);context.scale(scale, scale);
     context.fillStyle = colors.building;
@@ -105,7 +121,7 @@
   }
 
   function drawTree() {
-    const x = width * .115, y = landmarkY(.74, landmarkDepth.pine);
+    const x = width * .115, y = mountainTop + mountainHeight * .74;
     const scale = width > 520 ? 1 : .82;
     context.save();context.translate(x, y);context.scale(scale, scale);
     context.fillStyle = colors.tree;context.fillRect(-1.4, -39, 2.8, 42);
@@ -141,9 +157,8 @@
     context.closePath();context.fill();context.restore();
   }
 
-  function draw(now) {
-    context.clearRect(0, 0, width, height);
-    drawSky(now);
+  function paintScenery() {
+    context.clearRect(0, mountainTop, width, mountainHeight);
     drawObservatory();
     drawCabin();
     drawRiver();
@@ -159,7 +174,10 @@
     fade.addColorStop(1, colors.paper);
     context.fillStyle = fade;
     context.fillRect(0, fadeTop, width, height - fadeTop);
+  }
 
+  function moveSprites(now) {
+    moveSky(now);
     const time = reducedMotion.matches ? 0 : now / 1000;
     for (const fly of flies) {
       const p = fly.phase;
@@ -194,69 +212,45 @@
           x = Math.abs(x - area.left) < Math.abs(x - area.right) ? area.left : area.right;
         }
       }
+      const { element, bird, reflection } = fly;
+      place(element, x - 14, y - 14);
       if (isDay) {
         const span = fly.roams ? 8 : 6;
         const lift = reducedMotion.matches ? 3 : 3 + Math.sin(time * 3.5 + p) * 2;
-        context.save();context.globalAlpha = .72;context.strokeStyle = colors.bird;
-        context.lineWidth = 1.35;context.lineCap = 'round';
-        context.beginPath();context.moveTo(x - span, y - lift);
-        context.quadraticCurveTo(x - span * .45, y - lift - 2, x, y + 1);
-        context.quadraticCurveTo(x + span * .45, y - lift - 2, x + span, y - lift);
-        context.stroke();context.restore();
+        bird.setAttribute('d', `M${-span} ${-lift} Q${-span * .45} ${-lift - 2} 0 1 Q${span * .45} ${-lift - 2} ${span} ${-lift}`);
+        element.style.opacity = .72;
+        reflection.hidden = true;
         continue;
       }
       const altitude = Math.max(0, (mountainTop - y) / Math.max(1, mountainTop));
-      const glow = (reducedMotion.matches ? .65 : .45 + .4 * Math.pow((1 + Math.sin(time * 1.7 + p)) / 2, 2)) * (1 - altitude * .45);
+      const glow = (reducedMotion.matches ? .65 : .45 + .4 * ((1 + Math.sin(time * 1.7 + p)) / 2) ** 2) * (1 - altitude * .45);
+      element.style.opacity = glow;
       const waterT = (y - mountainTop - mountainHeight * .55) / (mountainHeight * .45);
-      if (waterT > 0 && waterT < .85 && Math.abs(x - riverX(waterT)) < 70) {
-        context.globalAlpha = glow * .15;context.strokeStyle = colors.window;context.lineWidth = 1;
-        const reflectedX = riverX(waterT);
-        context.beginPath();context.moveTo(reflectedX - 2, y + 2);context.lineTo(reflectedX + 2, y + 2);context.stroke();
-        context.globalAlpha = 1;
+      const reflectedX = riverX(waterT);
+      reflection.hidden = waterT <= 0 || waterT >= .85 || Math.abs(x - reflectedX) >= 70;
+      if (!reflection.hidden) {
+        place(reflection, reflectedX - 2, y + 2);
+        reflection.style.opacity = glow * .15;
       }
-      const halo = context.createRadialGradient(x, y, 0, x, y, 14);
-      halo.addColorStop(0, colors.fly);
-      halo.addColorStop(1, `${colors.fly}00`);
-      context.globalAlpha = glow * .28;
-      context.fillStyle = halo;
-      context.fillRect(x - 14, y - 14, 28, 28);
-      context.globalAlpha = glow * .5;
-      context.fillStyle = colors.wings;
-      context.beginPath();
-      context.ellipse(x - 3, y - 4.5, 4.2, 1.65, -.6, 0, Math.PI * 2);
-      context.ellipse(x + 3, y - 4.5, 4.2, 1.65, .6, 0, Math.PI * 2);
-      context.fill();
-      context.globalAlpha = glow;
-      context.fillStyle = colors.fly;
-      context.beginPath();
-      context.ellipse(x, y, 1.9, 3, 0, 0, Math.PI * 2);
-      context.fill();
-      context.globalAlpha = 1;
     }
   }
 
   function animate(now) {
-    if (now - lastDraw >= 1000 / 30) { draw(now); lastDraw = now; }
+    if (now - lastDraw >= 1000 / 30) { moveSprites(now); lastDraw = now; }
     frame = requestAnimationFrame(animate);
   }
 
   function restart() {
     cancelAnimationFrame(frame);
     frame = 0;
-    draw(performance.now());
+    moveSprites(performance.now());
     if (!reducedMotion.matches && !document.hidden && visible) frame = requestAnimationFrame(animate);
-  }
-
-  function updateScroll() {
-    scrollDepth = Math.max(0, Math.min(window.scrollY - sceneDocumentTop, 600));
   }
 
   function resize() {
     const bounds = scene.getBoundingClientRect();
     width = Math.max(1, root.clientWidth);
     height = Math.max(1, bounds.height);
-    sceneDocumentTop = bounds.top + window.scrollY;
-    updateScroll();
     root.style.setProperty('--scene-width', `${width}px`);
     const origin = (bounds.left + bounds.right - width) / 2;
     const land = landscape.getBoundingClientRect();
@@ -283,27 +277,29 @@
     protectedAreas = [...scene.querySelectorAll('.hero-copy, .portrait')].map(relative);
     const ratio = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(width * ratio);
-    canvas.height = Math.round(height * ratio);
-    context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    draw(performance.now());
+    canvas.height = Math.round(mountainHeight * ratio);
+    canvas.style.setProperty('--landscape-height', `${mountainHeight}px`);
+    context.setTransform(ratio, 0, 0, ratio, 0, -mountainTop * ratio);
+    positionSky();
+    paintScenery();
+    moveSprites(performance.now());
   }
 
   scene.addEventListener('pointermove', event => {
     if (event.pointerType !== 'mouse') return;
-    const bounds = canvas.getBoundingClientRect();
+    const bounds = motion.getBoundingClientRect();
     pointer = { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
   }, { passive: true });
   scene.addEventListener('pointerleave', () => { pointer = null; });
   reducedMotion.addEventListener('change', restart);
   document.addEventListener('visibilitychange', restart);
-  new MutationObserver(() => { readColors(); draw(performance.now()); })
+  new MutationObserver(() => { readColors(); paintScenery(); moveSprites(performance.now()); })
     .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; restart(); })
     .observe(scene);
   readColors();
   new ResizeObserver(resize).observe(scene);
   window.addEventListener('resize', resize, { passive: true });
-  window.addEventListener('scroll', updateScroll, { passive: true });
   resize();
   restart();
 })();
