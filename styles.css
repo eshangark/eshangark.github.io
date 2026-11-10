@@ -5,7 +5,7 @@
   --portrait-border: #313941; --sky-wash: #4c638a33;
   --line: #ffffff24; --accent: #c9c0af;
   --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #ffe9a8;
-  --scene-orb: #e5dfce; --scene-cloud: #9aa7bb; --scene-building: #15222e; --scene-bird: #b2bdc6;
+  --scene-orb: #e5dfce; --scene-cloud: #9aa7bb; --scene-bird: #b2bdc6;
   --scene-tree: #101c24; --scene-river: #7293a5; --scene-window: #dfbc79;
 }
 :root[data-theme="light"] {
@@ -15,7 +15,7 @@
   --portrait-border: #fbfaf4; --sky-wash: #edcb8840;
   --line: #263b3230; --accent: #526d49;
   --ridge-back: #9cb79b; --ridge-mid: #729567; --ridge-front: #4c744c; --firefly: #38544c;
-  --scene-orb: #dda943; --scene-cloud: #8fa6b6; --scene-building: #586c54; --scene-bird: #28463a;
+  --scene-orb: #dda943; --scene-cloud: #8fa6b6; --scene-bird: #28463a;
   --scene-tree: #2d5038; --scene-river: #7caab4; --scene-window: #b4c8c4;
 }
 *{box-sizing:border-box}
@@ -112,10 +112,6 @@ h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(34px,3.4vw,47px);
 footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 20px;padding:0 0 23px;color:var(--muted);font-size:14px;letter-spacing:.02em}footer a:hover{text-decoration:underline}
 .footer-landscape{grid-column:1/-1;position:relative;left:50%;width:var(--scene-width,100%);transform:translateX(-50%);height:clamp(66px,9vw,96px);isolation:isolate}
 .footer-landscape::before{content:"";position:absolute;inset:0;background:var(--mountain-art) center / 100% 100% no-repeat;opacity:.72}
-.footer-cabin{position:absolute;left:78%;bottom:42%;width:clamp(28px,4vw,44px);height:auto;transform:translateX(-50%)}
-.footer-cabin-shell{fill:color-mix(in srgb,var(--scene-building) 65%,var(--ridge-back))}
-.footer-window{fill:var(--scene-window);filter:drop-shadow(0 0 3px var(--scene-window))}
-:root[data-theme="light"] .footer-window{fill:#edce86;filter:none}
 
 .skip-link{position:fixed;top:-100px;left:20px;background:var(--ink);color:var(--paper);padding:12px;z-index:5}.skip-link:focus{top:20px}
 .opening .header,.opening .hero-copy>.eyebrow,.opening .hero-note,.opening .hero-bio,.opening .social-links,.opening .portrait,.opening .night-landscape,.opening .section-layout,.opening footer{opacity:0;pointer-events:none}

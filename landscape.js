@@ -52,7 +52,7 @@
     isDay = root.dataset.theme === 'light';
     const style = getComputedStyle(root);
     const token = name => style.getPropertyValue(name).trim();
-    colors = { paper: token('--paper'), building: token('--scene-building'),
+    colors = { paper: token('--paper'),
       tree: token('--scene-tree'), river: token('--scene-river'), window: token('--scene-window') };
   }
 
@@ -101,31 +101,6 @@
     }
   }
 
-  function drawObservatory() {
-    const x = width * .375, y = mountainTop + mountainHeight * .19 + 1;
-    const scale = width > 520 ? 1 : .8;
-    context.save();context.translate(x, y);context.scale(scale, scale);
-    context.fillStyle = colors.building;
-    context.fillRect(-12, -13, 24, 14);
-    context.beginPath();context.arc(0, -13, 12, Math.PI, 0);context.fill();
-    context.strokeStyle = colors.river;context.globalAlpha = .55;context.lineWidth = 1;
-    context.beginPath();context.moveTo(2, -24);context.lineTo(4, -14);context.stroke();
-    context.globalAlpha = 1;context.fillStyle = colors.window;context.fillRect(-5, -9, 3, 4);
-    context.restore();
-  }
-
-  function drawCabin() {
-    const x = width * .79, y = mountainTop + mountainHeight * .47 + 2;
-    const scale = width > 520 ? 1 : .85;
-    context.save();context.translate(x, y);context.scale(scale, scale);
-    context.fillStyle = colors.building;
-    context.fillRect(-12, -13, 24, 14);
-    context.beginPath();context.moveTo(-17, -12);context.lineTo(-2, -24);context.lineTo(16, -12);context.closePath();context.fill();
-    context.fillRect(7, -23, 4, 9);
-    context.fillStyle = colors.window;context.globalAlpha = .85;context.fillRect(-7, -10, 5, 5);
-    context.restore();
-  }
-
   function drawTree() {
     const x = width * .115, y = mountainTop + mountainHeight * .74;
     const scale = width > 520 ? 1 : .82;
@@ -165,8 +140,6 @@
 
   function paintScenery() {
     context.clearRect(0, mountainTop, width, mountainHeight);
-    drawObservatory();
-    drawCabin();
     drawRiver();
     drawTree();
 
