@@ -1,7 +1,7 @@
 :root {
   color-scheme: dark;
   --paper: #151d25; --ink: #f1eee8; --muted: #d3d8dc; --quiet: #b2bdc6;
-  --portrait-border: #313941;
+  --portrait-border: #313941; --sky-wash: #4c638a33;
   --line: #ffffff24; --accent: #c9c0af;
   --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #f5e2a3;
   --scene-orb: #e5dfce; --scene-cloud: #9aa7bb; --scene-building: #15222e; --scene-bird: #b2bdc6;
@@ -10,7 +10,7 @@
 :root[data-theme="light"] {
   color-scheme: light;
   --paper: #f2f5ed; --ink: #263b32; --muted: #475b4e; --quiet: #556b5b;
-  --portrait-border: #fbfaf4;
+  --portrait-border: #fbfaf4; --sky-wash: #edcb8840;
   --line: #263b3230; --accent: #526d49;
   --ridge-back: #9cb79b; --ridge-mid: #729567; --ridge-front: #4c744c; --firefly: #38544c;
   --scene-orb: #dda943; --scene-cloud: #8fa6b6; --scene-building: #586c54; --scene-bird: #324e42;
@@ -44,6 +44,14 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .portrait-frame{border-radius:18px;overflow:hidden;border:3px solid var(--portrait-border)}
 .portrait img{display:block;width:100%;height:auto;aspect-ratio:32/38;object-fit:cover}
 .hero-scene{position:relative}
+.hero-scene::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle at var(--orb-x,63%) var(--orb-y,18%),var(--sky-wash),transparent min(33vw,220px));
+}
+.opening .hero-scene::before{opacity:0}
 .night-landscape{height:180px}
 .scene-canvas{position:absolute;top:0;left:50%;width:var(--scene-width,100%);height:100%;transform:translateX(-50%);pointer-events:none}
 .opening .scene-canvas{opacity:0}

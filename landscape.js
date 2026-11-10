@@ -20,6 +20,7 @@
   let mountainTop = 0;
   let mountainHeight = 180;
   let skyRegion = null;
+  let sky;
   let protectedAreas = [];
   let frame = 0;
   let lastDraw = 0;
@@ -59,10 +60,7 @@
   }
 
   function drawSky(now) {
-    const radius = width > 520 ? 18 : 12;
-    const area = skyRegion && skyRegion.right - skyRegion.left >= radius * 2 + 8 ? skyRegion : null;
-    const x = area ? area.left + (area.right - area.left) * .63 : width * .86;
-    const y = area ? area.top + radius + 5 : mountainTop + 13;
+    const { radius, area, x, y } = sky;
     context.save();
     context.globalAlpha = .8;
     context.fillStyle = colors.orb;
@@ -332,6 +330,13 @@
       ? { left: copy.right, right: portrait.left, top: mountainTop * .22 }
       : { left: portrait.right, right: width - 18, top: portrait.top + 70 };
     if (skyRegion.right - skyRegion.left < 36) skyRegion = null;
+    const radius = width > 520 ? 18 : 12;
+    const area = skyRegion && skyRegion.right - skyRegion.left >= radius * 2 + 8 ? skyRegion : null;
+    const x = area ? area.left + (area.right - area.left) * .63 : width * .86;
+    const y = area ? area.top + radius + 5 : mountainTop + 13;
+    sky = { radius, area, x, y };
+    scene.style.setProperty('--orb-x', `${x + origin - bounds.left}px`);
+    scene.style.setProperty('--orb-y', `${y}px`);
     protectedAreas = [...scene.querySelectorAll('.hero-copy, .portrait')].map(relative);
     const ratio = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(width * ratio);
