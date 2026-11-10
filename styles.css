@@ -87,8 +87,8 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .scene-cloud:nth-child(2){opacity:.065}
 .scene-star{width:31px;height:1px;transform-origin:left center;background:linear-gradient(to right,transparent,var(--scene-orb))}
 .scene-fly,.scene-fly svg{width:28px;height:28px}
-.fly-glow{position:absolute;inset:-4px;background:radial-gradient(circle,var(--firefly),transparent 70%);opacity:.43}
-.fly-insect{fill:var(--firefly);transform:scale(1.25)}
+.fly-glow{position:absolute;inset:-2px;background:radial-gradient(circle,var(--firefly),transparent 70%);opacity:.43}
+.fly-insect{fill:var(--firefly);transform:scale(1.13)}
 .fly-wing{fill:var(--muted);opacity:.62}
 .fly-bird{display:none;fill:none;stroke:var(--scene-bird);stroke-width:1.7;stroke-linecap:round}
 .scene-reflection{width:4px;height:1px;background:var(--scene-window)}
