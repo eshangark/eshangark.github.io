@@ -29,11 +29,11 @@
       sectionAnimations.push(heading.animate([
         { opacity: 0, transform: stackedNav ? 'translateY(-10px)' : 'translateX(-22px)' },
         { opacity: 1, transform: 'none' }
-      ], { duration: 380, easing: 'cubic-bezier(.2,.65,.3,1)' }));
+      ], { duration: 950, easing: 'cubic-bezier(.42,0,.35,1)' }));
       for (const child of panel.children) {
         if (child === heading) continue;
         sectionAnimations.push(child.animate([{ opacity: 0 }, { opacity: 1 }],
-          { duration: 220, delay: 120, fill: 'backwards', easing: 'ease-out' }));
+          { duration: 560, delay: 175, fill: 'backwards', easing: 'ease-in-out' }));
       }
     }
   }
