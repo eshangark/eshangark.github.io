@@ -18,7 +18,7 @@
   }
 
   const skyLayer = sprite('scene-sky');
-  const clouds = [sprite('scene-cloud', skyLayer), sprite('scene-cloud', skyLayer)];
+  const clouds = Array.from({ length: 4 }, () => sprite('scene-cloud', skyLayer));
   const star = sprite('scene-star');
   const flies = homes.map(([x, y], index) => {
     const element = sprite('scene-fly');
@@ -38,7 +38,7 @@
   let mountainTop = 0;
   let mountainHeight = 180;
   let skyRegion = null;
-  let sky;
+  let cloudPaths = [];
   let protectedAreas = [];
   let frame = 0;
   let lastFrame = 0;
@@ -60,26 +60,31 @@
     element.style.transform = `translate3d(${x}px,${y}px,0)${extraTransform}`;
   }
 
-  function positionSky() {
-    const { area } = sky;
-    const flightArea = area || { left: width * .64, right: width - 8, top: mountainTop - 6 };
-    const skyBottom = area ? mountainTop : mountainTop + mountainHeight * .45;
-    const span = flightArea.right - flightArea.left;
-    const cloudWidth = Math.min(110, span * .76);
-    Object.assign(skyLayer.style, {
-      left: `${flightArea.left}px`, top: `${flightArea.top - 6}px`,
-      width: `${span}px`, height: `${skyBottom - flightArea.top + 6}px`
+  function positionClouds(area, orbY, copy, portrait) {
+    const upperLeft = area?.left ?? width * .66;
+    const upperRight = area?.right ?? width - 12;
+    const upperY = area ? orbY + 6 : mountainTop - 56;
+    const tracks = [
+      { left: upperLeft, right: upperRight, y: upperY, size: 112, bias: .28 },
+      { left: upperLeft, right: upperRight, y: Math.min(upperY + 58, mountainTop - 25), size: 96, bias: .72 },
+      { left: width * .09, right: width * .43, y: Math.max(copy.bottom - 17, mountainTop - 41), size: 126, bias: .37 },
+      { left: width * .61, right: width * .94, y: Math.max(portrait.bottom - 15, mountainTop - 27), size: 104, bias: .64 }
+    ];
+    cloudPaths = tracks.map(({ left, right, y, size, bias }, i) => {
+      const span = right - left;
+      const cloudWidth = Math.min(size, span * .73);
+      const room = span - cloudWidth;
+      clouds[i].style.width = `${cloudWidth}px`;
+      return { x: left + room * bias, y, drift: Math.min(70, room * .25) };
     });
-    clouds.forEach(cloud => { cloud.style.width = `${cloudWidth}px`; });
-    Object.assign(sky, { top: flightArea.top - 6, span, cloudWidth });
   }
 
   function moveSky(now) {
-    const { y, top, span, cloudWidth } = sky;
     const seconds = reducedMotion.matches ? 0 : (now - startedAt) / 1000;
     clouds.forEach((cloud, i) => {
-      const x = (span - cloudWidth) * (.5 + Math.sin(seconds * .035 + i * 2.4) * .42);
-      place(cloud, x, y - top + 2 + i * 47);
+      const { x, y, drift } = cloudPaths[i];
+      const wave = Math.sin(seconds * (.16 + i * .014) + i * 1.8);
+      place(cloud, x + wave * drift, y);
     });
     // First visible after twelve seconds, then every 43 seconds.
     const phase = (seconds + 31) % 43;
@@ -88,7 +93,7 @@
     star.hidden = !shooting;
     if (shooting) {
       const progress = phase / duration;
-      // Cross the clear strip above the ridge, outside the clouds' clipping box.
+      // Cross the clear strip above the ridge.
       const travel = width * .8;
       const drop = Math.min(28, travel * .07);
       const headX = width * .1 + travel * progress;
@@ -255,7 +260,6 @@
     const area = skyRegion && skyRegion.right - skyRegion.left >= radius * 2 + 8 ? skyRegion : null;
     const x = area ? area.left + (area.right - area.left) * .63 : width * .86;
     const y = area ? area.top + radius + 5 : mountainTop + 13;
-    sky = { area, y };
     scene.style.setProperty('--orb-x', `${x + origin - bounds.left}px`);
     scene.style.setProperty('--orb-y', `${y}px`);
     protectedAreas = [...scene.querySelectorAll('.hero-copy, .portrait')].map(relative);
@@ -264,7 +268,7 @@
     canvas.height = Math.round(mountainHeight * ratio);
     canvas.style.setProperty('--landscape-height', `${mountainHeight}px`);
     context.setTransform(ratio, 0, 0, ratio, 0, -mountainTop * ratio);
-    positionSky();
+    positionClouds(area, y, copy, portrait);
     paintScenery();
     moveSprites(performance.now());
   }

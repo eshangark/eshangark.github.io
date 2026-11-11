@@ -45,13 +45,20 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .portrait{margin:0;max-width:350px;width:100%;justify-self:end;transform:rotate(2deg)}
 .portrait-frame{border-radius:18px;overflow:hidden;border:3px solid var(--portrait-border)}
 .portrait img{display:block;width:100%;height:auto;aspect-ratio:32/38;object-fit:cover}
-.hero-scene{position:relative}
+.hero-scene{position:relative;isolation:isolate}
 .hero-scene::before{
   content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
   background:radial-gradient(circle at var(--orb-x,63%) var(--orb-y,18%),var(--sky-wash),transparent min(33vw,220px));
+}
+:root:not([data-theme="light"]) .hero-scene::before{
+  inset:0 auto 0 50%;
+  width:calc(var(--scene-width,100%) - 24px);
+  transform:translateX(-50%);
+  z-index:-1;
+  background:url("assets/night-pencil-sky.png") center / 100% 100% no-repeat;
 }
 .opening .hero-scene::before{opacity:0}
 .night-landscape{
@@ -73,7 +80,10 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
   opacity:.8;
   pointer-events:none;
 }
-.scene-sun,:root[data-theme="light"] .scene-moon{display:none}
+.scene-sun{display:none}
+:root:not([data-theme="light"]) .scene-orb{
+  background:url("assets/night-pencil-moon.png") center / contain no-repeat;
+}
 :root[data-theme="light"] .scene-sun{display:inline}
 :root[data-theme="light"] .scene-orb{opacity:.95}
 @media(max-width:520px){.scene-orb{width:24px;height:24px}}
@@ -81,10 +91,16 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .scene-canvas,.scene-motion{position:absolute;top:0;left:50%;width:var(--scene-width,100%);height:100%;transform:translateX(-50%);pointer-events:none}
 .scene-canvas{top:auto;bottom:0;height:var(--landscape-height,180px)}
 .scene-motion{overflow:hidden}
-.scene-sky{position:absolute;overflow:hidden}
+.scene-sky{position:absolute;inset:0}
 .scene-cloud,.scene-star,.scene-fly,.scene-reflection{position:absolute;top:0;left:0}
 .scene-cloud{height:18px;background:var(--scene-cloud);opacity:.12;border-radius:56% 67% 38% 43% / 83% 85% 23% 20%}
-.scene-cloud:nth-child(2){opacity:.065}
+.scene-cloud:nth-child(even){opacity:.065}
+:root:not([data-theme="light"]) .scene-cloud{
+  background:url("assets/night-pencil-cloud.png") center / 100% 100% no-repeat;
+  opacity:.85;
+  border-radius:0;
+}
+:root:not([data-theme="light"]) .scene-cloud:nth-child(even){opacity:.58}
 .scene-star{width:31px;height:1px;transform-origin:left center;background:linear-gradient(to right,transparent,var(--scene-orb))}
 .scene-fly,.scene-fly svg{width:28px;height:28px}
 .fly-glow{position:absolute;inset:-2px;background:radial-gradient(circle,var(--firefly),transparent 70%);opacity:.43}
@@ -93,7 +109,7 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .fly-bird{display:none;fill:none;stroke:var(--scene-bird);stroke-width:1.7;stroke-linecap:round}
 .scene-reflection{width:4px;height:1px;background:var(--scene-window)}
 :root[data-theme="light"] .scene-cloud{opacity:.18}
-:root[data-theme="light"] .scene-cloud:nth-child(2){opacity:.11}
+:root[data-theme="light"] .scene-cloud:nth-child(even){opacity:.11}
 :root[data-theme="light"] .fly-glow,:root[data-theme="light"] .fly-insect{display:none}
 :root[data-theme="light"] .fly-bird{display:inline}
 .opening .scene-canvas,.opening .scene-motion,.opening .scene-orb{visibility:hidden}
