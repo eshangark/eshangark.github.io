@@ -31,13 +31,13 @@
       const x = label.left + Math.min(32, label.width / 2) - title.left;
       const y = label.top + (label.height - title.height) / 2 - title.top;
       sectionAnimations.push(heading.animate([
-        { opacity: 0, transform: `translate(${x}px, ${y}px) scale(.65)`, transformOrigin: 'left center' },
+        { opacity: 0, transform: `translate(${x}px, ${y}px) scale(.78)`, transformOrigin: 'left center' },
         { opacity: 1, transform: 'none', transformOrigin: 'left center' }
-      ], { duration: 260, easing: 'cubic-bezier(.22,.8,.35,1)' }));
+      ], { duration: 480, easing: 'cubic-bezier(.42,0,.35,1)' }));
       for (const child of panel.children) {
         if (child === heading) continue;
         sectionAnimations.push(child.animate([{ opacity: 0 }, { opacity: 1 }],
-          { duration: 160, delay: 120, fill: 'backwards', easing: 'ease-out' }));
+          { duration: 240, delay: 175, fill: 'backwards', easing: 'ease-out' }));
       }
     }
   }
