@@ -21,7 +21,7 @@
     const night = document.documentElement.dataset.theme === 'dark';
     for (const href of night
       ? ['assets/night-pencil-sky.png', 'assets/mount-charleston-night.webp']
-      : ['assets/mount-charleston-day.webp']) {
+      : ['assets/day-pencil-sky.png', 'assets/mount-charleston-day.webp']) {
       const preload = document.createElement('link');
       preload.rel = 'preload';
       preload.as = 'image';
@@ -33,7 +33,7 @@
       window.openingFallback = setTimeout(() => document.documentElement.classList.remove('opening'), 4000);
     }
   </script>
-  <link rel="stylesheet" href="styles.css?v=36">
+  <link rel="stylesheet" href="styles.css?v=37">
   <script src="script.js?v=21" defer></script>
   <script src="opening.js?v=8" defer></script>
   <script src="landscape.js?v=17" defer></script>
@@ -85,9 +85,7 @@
         </figure>
       </section>
       <div class="night-landscape" aria-hidden="true"></div>
-      <svg class="scene-orb" viewBox="0 0 36 36" aria-hidden="true">
-        <circle class="scene-sun" cx="18" cy="18" r="18"/>
-      </svg>
+      <div class="scene-orb" aria-hidden="true"></div>
       <canvas class="scene-canvas" aria-hidden="true"></canvas>
       <div class="scene-motion" aria-hidden="true"></div>
       </div>

@@ -2,20 +2,24 @@
   color-scheme: dark;
   --paper: #151d25; --ink: #f1eee8; --muted: #d3d8dc; --quiet: #b2bdc6;
   --mountain-art: url("assets/mount-charleston-night.webp");
-  --portrait-border: #313941; --sky-wash: #4c638a33;
+  --portrait-border: #313941;
+  --sky-art: url("assets/night-pencil-sky.png");
+  --orb-art: url("assets/night-pencil-moon.png");
   --line: #ffffff24; --accent: #c9c0af;
   --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #ffe9a8;
-  --scene-orb: #e5dfce; --scene-cloud: #9aa7bb; --scene-bird: #b2bdc6;
+  --scene-orb: #e5dfce; --scene-bird: #b2bdc6;
   --scene-tree: #101c24; --scene-river: #7293a5; --scene-window: #dfbc79;
 }
 :root[data-theme="light"] {
   color-scheme: light;
   --paper: #f2f5ed; --ink: #263b32; --muted: #475b4e; --quiet: #556b5b;
   --mountain-art: url("assets/mount-charleston-day.webp");
-  --portrait-border: #fbfaf4; --sky-wash: #edcb8840;
+  --portrait-border: #fbfaf4;
+  --sky-art: url("assets/day-pencil-sky.png");
+  --orb-art: url("assets/day-pencil-sun.png");
   --line: #263b3230; --accent: #526d49;
   --ridge-back: #9cb79b; --ridge-mid: #729567; --ridge-front: #4c744c; --firefly: #38544c;
-  --scene-orb: #dda943; --scene-cloud: #8fa6b6; --scene-bird: #28463a;
+  --scene-orb: #dda943; --scene-bird: #28463a;
   --scene-tree: #2d5038; --scene-river: #7caab4; --scene-window: #b4c8c4;
 }
 *{box-sizing:border-box}
@@ -48,16 +52,12 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .hero-scene{position:relative;isolation:isolate}
 .scene-backdrop{
   position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:radial-gradient(circle at var(--orb-x,63%) var(--orb-y,18%),var(--sky-wash),transparent min(33vw,220px));
-}
-:root:not([data-theme="light"]) .scene-backdrop{
   inset:0 auto 0 50%;
   width:calc(var(--scene-width,100%) - 24px);
   transform:translateX(-50%);
   z-index:-1;
-  background:url("assets/night-pencil-sky.png") center / 100% 100% no-repeat;
+  pointer-events:none;
+  background:var(--sky-art) center / 100% 100% no-repeat;
 }
 .opening .scene-backdrop{opacity:0}
 .night-landscape{
@@ -75,15 +75,10 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
   width:36px;
   height:36px;
   transform:translate(-50%,-50%);
-  fill:var(--scene-orb);
+  background:var(--orb-art) center / contain no-repeat;
   opacity:.8;
   pointer-events:none;
 }
-.scene-sun{display:none}
-:root:not([data-theme="light"]) .scene-orb{
-  background:url("assets/night-pencil-moon.png") center / contain no-repeat;
-}
-:root[data-theme="light"] .scene-sun{display:inline}
 :root[data-theme="light"] .scene-orb{opacity:.95}
 @media(max-width:520px){.scene-orb{width:24px;height:24px}}
 @media(521px <= width <= 760px){.portrait figcaption{justify-content:flex-end}}
@@ -92,14 +87,12 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .scene-motion{overflow:hidden}
 .scene-sky{position:absolute;inset:0}
 .scene-cloud,.scene-star,.scene-fly,.scene-reflection{position:absolute;top:0;left:0}
-.scene-cloud{height:18px;background:var(--scene-cloud);opacity:.12;border-radius:56% 67% 38% 43% / 83% 85% 23% 20%}
-.scene-cloud:nth-child(even){opacity:.065}
-:root:not([data-theme="light"]) .scene-cloud{
+.scene-cloud{
+  height:18px;
   background:url("assets/night-pencil-cloud.png") center / 100% 100% no-repeat;
   opacity:.85;
-  border-radius:0;
 }
-:root:not([data-theme="light"]) .scene-cloud:nth-child(even){opacity:.58}
+.scene-cloud:nth-child(even){opacity:.58}
 .scene-star{width:31px;height:1px;transform-origin:left center;background:linear-gradient(to right,transparent,var(--scene-orb))}
 .scene-fly,.scene-fly svg{width:28px;height:28px}
 .fly-glow{position:absolute;inset:-2px;background:radial-gradient(circle,var(--firefly),transparent 70%);opacity:.43}
@@ -107,8 +100,8 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .fly-wing{fill:var(--muted);opacity:.62}
 .fly-bird{display:none;fill:none;stroke:var(--scene-bird);stroke-width:1.7;stroke-linecap:round}
 .scene-reflection{width:4px;height:1px;background:var(--scene-window)}
-:root[data-theme="light"] .scene-cloud{opacity:.18}
-:root[data-theme="light"] .scene-cloud:nth-child(even){opacity:.11}
+:root[data-theme="light"] .scene-cloud{opacity:.9}
+:root[data-theme="light"] .scene-cloud:nth-child(even){opacity:.65}
 :root[data-theme="light"] .fly-glow,:root[data-theme="light"] .fly-insect{display:none}
 :root[data-theme="light"] .fly-bird{display:inline}
 .opening .scene-canvas,.opening .scene-motion,.opening .scene-orb{opacity:0}
