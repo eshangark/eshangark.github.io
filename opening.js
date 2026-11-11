@@ -59,9 +59,9 @@
       ], { duration: 2200, fill: 'both' });
       animations.push(travel);
       const groups = [
-        '.hero-copy>.eyebrow, .hero-note, .hero-bio, .social-links',
+        '.scene-backdrop, .night-landscape, .scene-canvas, .scene-motion, .scene-orb, .hero-copy>.eyebrow, .hero-note, .hero-bio, .social-links',
         '.header, .portrait',
-        '.scene-canvas, .section-layout, footer'
+        '.section-layout, footer'
       ];
       groups.forEach((selector, index) => {
         document.querySelectorAll(selector).forEach(element => {

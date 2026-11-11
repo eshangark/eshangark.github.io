@@ -3,14 +3,42 @@
   const panels = [...document.querySelectorAll('.panel')];
   const allowed = new Set(panels.map(panel => panel.id));
 
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let activeSection;
+  let sectionAnimations = [];
+
   function renderSection() {
     const requested = window.location.hash.slice(1);
     if (requested === 'content') return;
     const active = allowed.has(requested) ? requested : 'about';
+    const changed = activeSection && activeSection !== active;
+    if (activeSection === active) return;
+    activeSection = active;
+    sectionAnimations.forEach(animation => animation.cancel());
+    sectionAnimations = [];
     for (const panel of panels) panel.hidden = panel.id !== active;
     for (const link of links) {
       if (link.hash === `#${active}`) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
+    }
+    if (changed && !reducedMotion.matches) {
+      const panel = panels.find(candidate => candidate.id === active);
+      const heading = panel.querySelector('h2');
+      const selectedLink = links.find(link => link.hash === `#${active}`);
+      if (!heading?.animate || !selectedLink) return;
+      const label = selectedLink.getBoundingClientRect();
+      const title = heading.getBoundingClientRect();
+      const x = label.left + Math.min(32, label.width / 2) - title.left;
+      const y = label.top + (label.height - title.height) / 2 - title.top;
+      sectionAnimations.push(heading.animate([
+        { opacity: 0, transform: `translate(${x}px, ${y}px) scale(.65)`, transformOrigin: 'left center' },
+        { opacity: 1, transform: 'none', transformOrigin: 'left center' }
+      ], { duration: 260, easing: 'cubic-bezier(.22,.8,.35,1)' }));
+      for (const child of panel.children) {
+        if (child === heading) continue;
+        sectionAnimations.push(child.animate([{ opacity: 0 }, { opacity: 1 }],
+          { duration: 160, delay: 120, fill: 'backwards', easing: 'ease-out' }));
+      }
     }
   }
 
@@ -25,7 +53,7 @@
       if (link.closest('.header-links') ||
           (link.closest('.navigation') && window.scrollY > sectionLayout.offsetTop)) {
         sectionLayout.scrollIntoView({
-          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+          behavior: reducedMotion.matches ? 'instant' : 'smooth',
           block: 'start'
         });
       }
