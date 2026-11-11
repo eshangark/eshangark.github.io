@@ -5,7 +5,6 @@
   --portrait-border: #313941;
   --sky-art: url("assets/night-pencil-sky.png");
   --orb-art: url("assets/night-pencil-moon.png");
-  --footer-art: url("assets/footer-contours-night.png");
   --line: #ffffff24; --accent: #c9c0af;
   --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #ffe9a8;
   --scene-orb: #e5dfce; --scene-bird: #b2bdc6;
@@ -18,7 +17,6 @@
   --portrait-border: #fbfaf4;
   --sky-art: url("assets/day-pencil-sky.png");
   --orb-art: url("assets/day-pencil-sun.png");
-  --footer-art: url("assets/footer-contours-day.png");
   --line: #263b3230; --accent: #526d49;
   --ridge-back: #9cb79b; --ridge-mid: #729567; --ridge-front: #4c744c; --firefly: #38544c;
   --scene-orb: #dda943; --scene-bird: #28463a;
@@ -131,18 +129,9 @@ h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(34px,3.4vw,47px);
 .placeholder-copy{font-size:18px;line-height:1.8;color:var(--muted);max-width:360px;margin:0 0 33px}
 .placeholder-rule{display:flex;justify-content:space-between;gap:18px;border-top:1px solid var(--line);padding-top:15px;color:var(--muted);font-size:14px;letter-spacing:.03em}
 .placeholder-rule span:last-child{font-style:italic}
-footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 20px;padding:17px 0 10px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;letter-spacing:.02em}footer a:hover{text-decoration:underline}
-.footer-contours{
-  grid-column:1/-1;
-  position:relative;
-  left:50%;
-  width:var(--scene-width,100%);
-  height:clamp(65px,9vw,108px);
-  transform:translateX(-50%);
-  background:var(--footer-art) center / 100% 100% no-repeat;
-  pointer-events:none;
-}
-
+footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 20px;padding:0 0 23px;color:var(--muted);font-size:14px;letter-spacing:.02em}footer a:hover{text-decoration:underline}
+.footer-landscape{grid-column:1/-1;position:relative;left:50%;width:var(--scene-width,100%);transform:translateX(-50%);height:clamp(66px,9vw,96px);isolation:isolate}
+.footer-landscape::before{content:"";position:absolute;inset:0;background:var(--mountain-art) center / 100% 100% no-repeat;opacity:.72}
 
 .skip-link{position:fixed;top:-100px;left:20px;background:var(--ink);color:var(--paper);padding:12px;z-index:5}.skip-link:focus{top:20px}
 .opening .header,.opening .hero-copy>.eyebrow,.opening .hero-note,.opening .hero-bio,.opening .social-links,.opening .portrait,.opening .night-landscape,.opening .section-layout,.opening footer{opacity:0;pointer-events:none}
