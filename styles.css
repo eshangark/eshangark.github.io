@@ -5,6 +5,7 @@
   --portrait-border: #313941;
   --sky-art: url("assets/night-pencil-sky.png");
   --orb-art: url("assets/night-pencil-moon.png");
+  --footer-art: url("assets/footer-contours-night.png");
   --line: #ffffff24; --accent: #c9c0af;
   --ridge-back: #303e50; --ridge-mid: #253746; --ridge-front: #1b2a35; --firefly: #ffe9a8;
   --scene-orb: #e5dfce; --scene-bird: #b2bdc6;
@@ -17,6 +18,7 @@
   --portrait-border: #fbfaf4;
   --sky-art: url("assets/day-pencil-sky.png");
   --orb-art: url("assets/day-pencil-sun.png");
+  --footer-art: url("assets/footer-contours-day.png");
   --line: #263b3230; --accent: #526d49;
   --ridge-back: #9cb79b; --ridge-mid: #729567; --ridge-front: #4c744c; --firefly: #38544c;
   --scene-orb: #dda943; --scene-bird: #28463a;
@@ -111,15 +113,36 @@ em{font-weight:400}h1 em{letter-spacing:-.07em;font-style:normal}.name-dot{color
 .navigation a{display:flex;align-items:baseline;padding:12px 0;color:var(--muted);font-family:Georgia,'Times New Roman',serif;font-size:30px;border-bottom:1px solid color-mix(in srgb,var(--line) 65%,transparent);position:relative;transition:color .2s}
 .navigation a:first-child{padding-top:0}
 .navigation a[aria-current],.navigation a:hover{color:var(--ink)}
-.navigation a[aria-current]::after{content:"";position:absolute;bottom:-1px;left:0;width:24px;height:2px;background:var(--accent)}
+.navigation a[aria-current]::after{
+  content:"";
+  position:absolute;
+  bottom:-1px;
+  left:0;
+  width:clamp(28px,4vw,52px);
+  height:3px;
+  background:var(--accent);
+  clip-path:polygon(0 52%, 8% 26%, 20% 36%, 34% 16%, 50% 30%, 72% 22%, 91% 39%, 100% 54%, 88% 70%, 63% 76%, 45% 87%, 29% 77%, 13% 88%, 2% 71%);
+  transform-origin:left center;
+  animation:nav-stroke .42s cubic-bezier(.25,.6,.35,1) both;
+}
+@keyframes nav-stroke{from{scale:.07 1;opacity:.4}to{scale:1 1;opacity:1}}
 .panels{min-width:0}.panel{min-height:230px}.panel .eyebrow{margin:3px 0 22px}
 h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(34px,3.4vw,47px);font-weight:400;line-height:1.2;letter-spacing:-.035em;margin:0 0 20px}
 .placeholder-copy{font-size:18px;line-height:1.8;color:var(--muted);max-width:360px;margin:0 0 33px}
 .placeholder-rule{display:flex;justify-content:space-between;gap:18px;border-top:1px solid var(--line);padding-top:15px;color:var(--muted);font-size:14px;letter-spacing:.03em}
 .placeholder-rule span:last-child{font-style:italic}
-footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 20px;padding:0 0 23px;color:var(--muted);font-size:14px;letter-spacing:.02em}footer a:hover{text-decoration:underline}
-.footer-landscape{grid-column:1/-1;position:relative;left:50%;width:var(--scene-width,100%);transform:translateX(-50%);height:clamp(66px,9vw,96px);isolation:isolate}
-.footer-landscape::before{content:"";position:absolute;inset:0;background:var(--mountain-art) center / 100% 100% no-repeat;opacity:.72}
+footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 20px;padding:17px 0 10px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;letter-spacing:.02em}footer a:hover{text-decoration:underline}
+.footer-contours{
+  grid-column:1/-1;
+  position:relative;
+  left:50%;
+  width:var(--scene-width,100%);
+  height:clamp(65px,9vw,108px);
+  transform:translateX(-50%);
+  background:var(--footer-art) center / 100% 100% no-repeat;
+  pointer-events:none;
+}
+
 
 .skip-link{position:fixed;top:-100px;left:20px;background:var(--ink);color:var(--paper);padding:12px;z-index:5}.skip-link:focus{top:20px}
 .opening .header,.opening .hero-copy>.eyebrow,.opening .hero-note,.opening .hero-bio,.opening .social-links,.opening .portrait,.opening .night-landscape,.opening .section-layout,.opening footer{opacity:0;pointer-events:none}
@@ -128,7 +151,7 @@ footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 20px;paddi
 .opening-char{display:inline-block;white-space:pre;letter-spacing:0;text-align:left}
 @media(min-width:1500px){.site-shell{padding:0 100px}}
 @media(max-width:760px){.site-shell{padding:0 6%}.header{padding:22px 0}.header-note{display:none}.hero{gap:6%;padding:48px 0}.hero h1{font-size:clamp(42px,8vw,64px)}.portrait figcaption{font-size:11px;line-height:1.4}.portrait figcaption span:first-child{display:none}.hero-note{font-size:16px;margin-top:20px}.section-layout{gap:8%;grid-template-columns:1fr 1.5fr}.navigation a{font-size:26px}.panel .eyebrow{font-size:13px}.placeholder-copy{font-size:17px}}
-@media(max-width:520px){.hero{grid-template-columns:1fr;padding:40px 0;gap:32px}.hero h1{font-size:clamp(48px,12vw,66px)}.hero .eyebrow{margin-bottom:15px}.portrait{justify-self:start;max-width:240px;margin:0 0 0 7px}.portrait figcaption span:first-child{display:inline}.portrait figcaption{font-size:11px}.section-layout{grid-template-columns:1fr;gap:36px;padding:25px 0 32px}.navigation{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.navigation a{font-family:Arial,Helvetica,sans-serif;font-size:16px;padding:10px 0;justify-content:center}.navigation a:first-child{padding-top:10px}.navigation a[aria-current]::after{left:50%;transform:translateX(-50%)}.panel{min-height:210px}.placeholder-copy{max-width:none}footer{font-size:13px}.edition{font-size:13px}}
+@media(max-width:520px){.hero{grid-template-columns:1fr;padding:40px 0;gap:32px}.hero h1{font-size:clamp(48px,12vw,66px)}.hero .eyebrow{margin-bottom:15px}.portrait{justify-self:start;max-width:240px;margin:0 0 0 7px}.portrait figcaption span:first-child{display:inline}.portrait figcaption{font-size:11px}.section-layout{grid-template-columns:1fr;gap:36px;padding:25px 0 32px}.navigation{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.navigation a{font-family:Arial,Helvetica,sans-serif;font-size:16px;padding:10px 0;justify-content:center}.navigation a:first-child{padding-top:10px}.navigation a[aria-current]::after{left:50%;translate:-50% 0}.panel{min-height:210px}.placeholder-copy{max-width:none}footer{font-size:13px}.edition{font-size:13px}}
 @media(max-width:520px){.header-controls{gap:12px}.header-controls .edition{display:none}}
 @media(max-width:520px){.navigation{grid-template-columns:repeat(3,1fr);row-gap:4px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.opening .header,.opening .hero-copy>.eyebrow,.opening .hero-note,.opening .hero-bio,.opening .social-links,.opening .portrait,.opening .section-layout,.opening footer{opacity:1;pointer-events:auto}.opening:not(.opening-play) #name{visibility:visible}}
